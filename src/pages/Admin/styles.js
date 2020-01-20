@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FaBars, FaWindowClose, FaTrash } from 'react-icons/fa';
+import { FaBars, FaWindowClose, FaTrash, FaPencilAlt } from 'react-icons/fa';
 
 export const Logo = styled.img`
 
@@ -348,3 +348,9 @@ export const TrashIcon = styled(FaTrash)`
   cursor: pointer;
 
 `
+
+export const EditIcon = styled(FaPencilAlt)`
+
+  color: #c33f3f;
+  cursor: pointer;
+`;

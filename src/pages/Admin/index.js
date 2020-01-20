@@ -14,7 +14,8 @@ import {Container,
   FormContainer,
   ExitButton,
   RadioLabel,
-  TrashIcon
+  TrashIcon,
+  EditIcon
  } from './styles';
 
 
@@ -52,6 +53,10 @@ export default function Admin({history}) {
       if(response.data.admin === false){
         history.push('/dashboard')
       }
+    }
+
+    if(sessionStorage.getItem('user_id') === null){
+      history.push('/');
     }
 
     checkAdmin();
@@ -372,6 +377,7 @@ export default function Admin({history}) {
                     <th>Email</th>
                     <th>Código</th>
                     <th>Créditos</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -381,6 +387,7 @@ export default function Admin({history}) {
                       <td>{user.email}</td>
                       <td>{user.code}</td>
                       <td>R${user.credits}</td>
+                      <td><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/></td>
                     </tr>
                   ))}
                 </tbody>

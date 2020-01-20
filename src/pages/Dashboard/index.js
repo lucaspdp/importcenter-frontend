@@ -36,6 +36,7 @@ export default function Dashboard({history}) {
           id
         }
       });
+      
 
       setStatements(response.data);
     }
@@ -59,11 +60,15 @@ export default function Dashboard({history}) {
 
       setPosts(response.data);
     }
+    
+    if(sessionStorage.getItem('user_id') === null){
+      history.push('/');
+    }
 
     getStatements();
     getCredits()
     getPosts();
-  }, [credits])
+  }, [credits, history])
 
   async function handleBuy(post_id){
     const id = sessionStorage.getItem('user_id');
