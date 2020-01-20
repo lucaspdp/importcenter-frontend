@@ -27,7 +27,7 @@ import api from '../../services/api';
 export default function Admin({history}) {
 
   const [menu, setMenu] = useState(false);
-  const [caminho, setCaminho] = useState('posts');
+  const [caminho, setCaminho] = useState('admin');
 
   const [price, setPrice] = useState(0);
   const [credits, setCredits] = useState(0);
