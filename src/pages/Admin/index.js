@@ -33,6 +33,7 @@ export default function Admin({history}) {
   const [price, setPrice] = useState(0);
   const [credits, setCredits] = useState(0);
   const [vehicle, setVehicle] = useState('');
+  const [tType, setTType] = useState('');
   const [brand, setBrand] = useState('');
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
@@ -140,7 +141,6 @@ export default function Admin({history}) {
       headers: {
         id: user_id
       }
-    }).then(()=>{
     }).catch((res)=>{
       const errorJson = {res};
       setError(errorJson.res.response.data.error)
@@ -159,7 +159,8 @@ export default function Admin({history}) {
     const response = await api.put('/credits', {
       credit: true,
       value: credits,
-      user_email: email
+      user_email: email,
+      t_type: tType
     }, {
       headers:{
         admin_id: id,
@@ -224,6 +225,34 @@ export default function Admin({history}) {
       setPosts(res.data);
     }
   }
+
+  async function handleDeleteUser(id, email){
+    if(id){
+      // eslint-disable-next-line no-restricted-globals
+      let res = confirm(`Você deseja deletar o usuário ${email} ?`);
+      if(res){
+        const response = await api.delete(`/user/${id}`,{
+          headers:{
+            id: sessionStorage.getItem('user_id')
+          }
+        }).catch(err=>{
+          const errorMsg = err.response.data.error;
+          return setError(errorMsg);
+        });
+    
+        if(response){
+          alert("Usuário deletado deletado!");
+          const res = await api.get('/users', {
+            headers:{
+              id: sessionStorage.getItem('user_id')
+            }
+          });
+    
+          setUsers(res.data);
+      }
+    }
+  }
+}
 
   return (
     <>
@@ -360,6 +389,15 @@ export default function Admin({history}) {
                   onChange={(e)=>setEmail(e.target.value)}
                 />
 
+                <label for="motivo">Tipo de transação: </label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="Email" 
+                  value={tType}
+                  onChange={(e)=>setTType(e.target.value)}
+                />
+
                 <button type="submit" onClick={handleCredits}>Enviar</button>
               </form>
               <span className="errorSpan">{error}</span>
@@ -387,7 +425,7 @@ export default function Admin({history}) {
                       <td>{user.email}</td>
                       <td>{user.code}</td>
                       <td>R${user.credits}</td>
-                      <td><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/></td>
+                      <td><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/>  <TrashIcon onClick={()=> handleDeleteUser(user._id, user.email)}/></td>
                     </tr>
                   ))}
                 </tbody>
@@ -474,7 +512,7 @@ export default function Admin({history}) {
                       <td>R${post.url}</td>
                       <td><TrashIcon onClick={()=>handleDelete(post._id)}/></td>
                     </tr>
-                  ))}
+                  )).reverse()}
                 </tbody>
               </table>
             </FormContainer>

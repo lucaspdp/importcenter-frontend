@@ -30,7 +30,7 @@ export default function Login({history}) {
 
       const user = response.data;
 
-      console.log(user);
+      //console.log(user);
 
       if(user.admin){
         sessionStorage.setItem('user_id', user._id);
@@ -42,7 +42,7 @@ export default function Login({history}) {
         history.push('/dashboard');
       }
     } catch (error) {
-      console.log('Usuário não cadastrado!')
+      //alert('Usuário não cadastrado!')
     }
 
   }

@@ -302,7 +302,6 @@ export const FormContainer = styled.div`
     border-collapse: collapse;
     width: 80%;
   }
-
   th, td {
     text-align: left;
     padding: 8px;
