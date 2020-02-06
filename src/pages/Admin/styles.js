@@ -3,8 +3,8 @@ import { FaBars, FaWindowClose, FaTrash, FaPencilAlt } from 'react-icons/fa';
 
 export const Logo = styled.img`
 
-  width: 550px;
-  height: 120px;
+  width: 300px;
+  height: 90px;
 
   position: initial;
 
@@ -16,8 +16,8 @@ export const Logo = styled.img`
 `;
 export const DimLogo = styled.img`
 
-  width: 223px;
-  height: 50px;
+  width: 150px;
+  height: 38px;
 
   position: initial;
 
@@ -31,8 +31,8 @@ export const DimLogo = styled.img`
 
 export const AlientechLogo = styled.img`
 
-  width: 180px;
-  height: 43px;
+  width: 150px;
+  height: 38px;
 
   position: initial;
   margin-left: 5px;
@@ -173,7 +173,7 @@ export const Menu = styled.div`
         }
       }
     }
-  };
+  }
     
     ${props=>props.toggle ? 'transform: translate(-300px, 0);' 
     : 'transform: translate(0, 0)'};
@@ -305,6 +305,21 @@ export const FormContainer = styled.div`
   th, td {
     text-align: left;
     padding: 8px;
+  }
+
+  td a{
+    text-decoration: none;
+    color: #53f;
+    transition-duration: 0.2s;
+    &:hover{
+      color: #10a;
+    }
+    &:visited{
+      color: #53f;
+      &:hover{
+        color: #10a;
+      }
+    }
   }
 
   tr:nth-child(even){background-color: #fee}

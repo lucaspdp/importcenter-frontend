@@ -3,8 +3,8 @@ import { FaBars, FaWindowClose } from 'react-icons/fa';
 
 export const Logo = styled.img`
 
-  width: 550px;
-  height: 120px;
+  width: 300px;
+  height: 90px;
 
   position: initial;
 
@@ -16,8 +16,8 @@ export const Logo = styled.img`
 `;
 export const DimLogo = styled.img`
 
-  width: 223px;
-  height: 50px;
+  width: 150px;
+  height: 38px;
 
   position: initial;
 
@@ -31,8 +31,8 @@ export const DimLogo = styled.img`
 
 export const AlientechLogo = styled.img`
 
-  width: 180px;
-  height: 43px;
+  width: 150px;
+  height: 38px;
 
   position: initial;
   margin-left: 5px;
@@ -183,6 +183,7 @@ export const Span = styled.span`
 `;
 
 export const PostsContainer = styled.div`
+    @import url('https://fonts.googleapis.com/css?family=Kanit:500i&display=swap');
 
     display: flex;
     flex-direction: column;
@@ -197,6 +198,7 @@ export const PostsContainer = styled.div`
     .title{
       color: #7d7d7d;
       font-size: 5rem;
+      font-family: 'Kanit', sans-serif;
     }
     .saldo{
       font-size: 1rem;

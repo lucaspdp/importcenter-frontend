@@ -509,7 +509,7 @@ export default function Admin({history}) {
                       <td>{post.destination.email}</td>
                       <td>{post.vehicle}</td>
                       <td>{post.brand}</td>
-                      <td>R${post.url}</td>
+                      <td><a href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a></td>
                       <td><TrashIcon onClick={()=>handleDelete(post._id)}/></td>
                     </tr>
                   )).reverse()}
