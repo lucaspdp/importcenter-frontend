@@ -424,7 +424,7 @@ export default function Admin({history}) {
                       <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>{user.code}</td>
-                      <td>R${user.credits}</td>
+                      <td>R${parseFloat(user.credits).toFixed(2)}</td>
                       <td><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/>  <TrashIcon onClick={()=> handleDeleteUser(user._id, user.email)}/></td>
                     </tr>
                   ))}

@@ -58,7 +58,7 @@ export default function Dashboard({history}) {
           <Statements>
             
             <div className='saldo'>
-              <span>Saldo: R${credits}</span>
+              <span>Saldo: R${parseFloat(credits).toFixed(2)}</span>
             </div>
             <div className='extrato'>
               <span className='title'>Extrato</span>

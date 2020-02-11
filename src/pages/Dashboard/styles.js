@@ -206,6 +206,8 @@ export const PostsContainer = styled.div`
     }
 
     ul{
+      display: flex;
+      flex-direction: column-reverse;
       margin-top: 10px;
       list-style: none;
       overflow-y: scroll;
