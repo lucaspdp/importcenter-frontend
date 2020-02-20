@@ -312,7 +312,7 @@ export default function Admin({history}) {
                   }}
                   caminho={caminho.toString()}
                   val='register'
-                  >Cadastrar</MenuSelect>
+                  >Cadastrar Cliente</MenuSelect>
                 </li>
                 <li key='posts'>
                   <MenuSelect onClick={(e)=>{
@@ -320,7 +320,7 @@ export default function Admin({history}) {
                   }}
                   caminho={caminho.toString()}
                   val='posts'
-                  >Arquivos cadastrados</MenuSelect>
+                  >Arquivos Cadastrados</MenuSelect>
                 </li>
               </ul>
             </Menu>
