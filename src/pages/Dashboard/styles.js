@@ -202,7 +202,7 @@ export const PostsContainer = styled.div`
     }
     .saldo{
       font-size: 1rem;
-      color: #DC5656;
+      color: #56DC7F;
     }
 
     ul{
@@ -210,6 +210,8 @@ export const PostsContainer = styled.div`
       list-style: none;
       overflow-y: scroll;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column-reverse;
 
       &::-webkit-scrollbar{
         width: 0;

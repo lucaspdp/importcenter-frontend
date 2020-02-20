@@ -101,7 +101,7 @@ export default function Dashboard({history}) {
         <Nav >
           <Menu toggle={!menu}>
             <div className='saldo'>
-              <span>Saldo: R${credits}</span>
+              <span>Saldo: R${parseFloat(credits).toFixed(2)}</span>
             </div>
             <div className='extrato'>
               <span className='title'>Extrato</span>
@@ -121,7 +121,7 @@ export default function Dashboard({history}) {
 
         <PostsContainer>
           <span className='title'>Remaps</span>
-          <span className='saldo'>Saldo: R${credits}</span>
+          <span className='saldo' style={{color: credits<0&&'#f00'}}>Saldo: R${parseFloat(credits).toFixed(2)}</span>
           <ul>
             {posts.map(post=>(
               <li key={post._id}>

@@ -86,6 +86,8 @@ export const Nav = styled.div`
   justify-content: flex-start;
 
   position: absolute;
+  user-select: none;
+   ${props=>props.toggle ? 'z-index: 4': 'z-index: 6'};
 `;
 
 export const Bars = styled(FaBars)`
@@ -97,7 +99,7 @@ export const Bars = styled(FaBars)`
   transition-duration: 0.5s;
     
   ${props=>props.toggle ? 'transform: translate(-300px, 0);' 
-  : 'transform: translate(0, 0)'}
+  : 'transform: translate(0, 0);'}
 `;
 
 export const Menu = styled.div`
@@ -105,8 +107,8 @@ export const Menu = styled.div`
     background-color: #fff;
     height: 74vh;
     width: 300px;
-
-
+    ${props=> props.toggle ? setTimeout(()=>`display: none`, 1000) : `display: block`}
+    
     transition-duration: 0.5s;
 
     border-right: 6px solid #7E7E7E;
@@ -174,10 +176,9 @@ export const Menu = styled.div`
       }
     }
   }
-    
-    ${props=>props.toggle ? 'transform: translate(-300px, 0);' 
+   ${props=>props.toggle ? 'transform: translate(-300px, 0);' 
     : 'transform: translate(0, 0)'};
-
+    
 `;
 
 export const MenuSelect = styled.span`
@@ -301,6 +302,7 @@ export const FormContainer = styled.div`
   table {
     border-collapse: collapse;
     width: 80%;
+    z-index: 5
   }
   th, td {
     text-align: left;
@@ -319,6 +321,14 @@ export const FormContainer = styled.div`
       &:hover{
         color: #10a;
       }
+    }
+  }
+  td:last-child{
+    display: flex;
+    flex-direction: row;
+
+    svg{
+      margin-right: 10px;
     }
   }
 

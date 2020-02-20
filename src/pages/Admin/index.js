@@ -200,29 +200,38 @@ export default function Admin({history}) {
 
     if (response)
       alert('Post criado com sucesso!')
+      setVehicle("");
+      setPrice(0);
+      setUrl("");
+      setBrand("");
+      setEmail("");
   }
 
-  async function handleDelete(post_id){
-    const id = sessionStorage.getItem('user_id');
-    const response = await api.delete('/post/delete', {
-      headers:{
-        id,
-        post_id
-      }
-    }).catch(err=>{
-      const errorMsg = err.response.data.error;
-      return setError(errorMsg);
-    });
-
-    if(response){
-      alert("Post deletado!");
-      const res = await api.get('/posts', {
+  async function handleDelete(post_id, placa){
+    // eslint-disable-next-line no-restricted-globals
+    let res = confirm(`Você deseja deletar o post da placa ${placa}?`);
+    if(res){
+      const id = sessionStorage.getItem('user_id');
+      const response = await api.delete('/post/delete', {
         headers:{
-          id: sessionStorage.getItem('user_id')
+          id,
+          post_id
         }
+      }).catch(err=>{
+        const errorMsg = err.response.data.error;
+        return setError(errorMsg);
       });
 
-      setPosts(res.data);
+      if(response){
+        alert("Post deletado!");
+        const res = await api.get('/posts', {
+          headers:{
+            id: sessionStorage.getItem('user_id')
+          }
+        });
+
+        setPosts(res.data);
+      }
     }
   }
 
@@ -266,7 +275,7 @@ export default function Admin({history}) {
         <AlientechLogo src={Alientech} alt="Alientech logo" isMobile={isMobile}/>
       </Header>
       <Container>
-        <Nav >
+        <Nav toggle={!menu}>
             <Menu toggle={!menu}>
               <div className='top-text'>
                 <span>Administrador</span>
@@ -278,7 +287,7 @@ export default function Admin({history}) {
                   }}
                   caminho={caminho.toString()}
                   val='admin'
-                  >Arquivos</MenuSelect>
+                  >Cadastrar Arquivo</MenuSelect>
                 </li>
                 <li key='credits'>
                   <MenuSelect 
@@ -311,7 +320,7 @@ export default function Admin({history}) {
                   }}
                   caminho={caminho.toString()}
                   val='posts'
-                  >Arquivos</MenuSelect>
+                  >Arquivos cadastrados</MenuSelect>
                 </li>
               </ul>
             </Menu>
@@ -424,7 +433,7 @@ export default function Admin({history}) {
                       <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>{user.code}</td>
-                      <td>R${user.credits}</td>
+                      <td>R${parseFloat(user.credits).toFixed(2)}</td>
                       <td><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/>  <TrashIcon onClick={()=> handleDeleteUser(user._id, user.email)}/></td>
                     </tr>
                   ))}
@@ -510,7 +519,7 @@ export default function Admin({history}) {
                       <td>{post.vehicle}</td>
                       <td>{post.brand}</td>
                       <td><a href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a></td>
-                      <td><TrashIcon onClick={()=>handleDelete(post._id)}/></td>
+                      <td><EditIcon onClick={()=> history.push(`/editpost/${post._id}`)}/> <TrashIcon onClick={()=>handleDelete(post._id, post.brand)}/></td>
                     </tr>
                   )).reverse()}
                 </tbody>
