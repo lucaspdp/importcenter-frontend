@@ -1,6 +1,6 @@
 import {createGlobalStyle} from 'styled-components';
 
-import Bandeira from '../assets/Bandeira/Bandeira.png';
+import Bandeira from '../assets/Bandeira/Bandeira.svg';
 
 export default createGlobalStyle`
 
@@ -19,7 +19,7 @@ export default createGlobalStyle`
   body{
     -webkit-font-smoothing: antialiased !important;
 
-    background: url(${Bandeira});
+    background: url(${Bandeira}) ;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -35,4 +35,7 @@ export default createGlobalStyle`
     cursor: pointer;
   }
 
+  #root{
+    background: linear-gradient(90deg, #ffffff5f, #0000005f)
+  }
 `;

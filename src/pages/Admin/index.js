@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { isMobile } from 'react-device-detect';
 import CurrencyInput from 'react-currency-input';
 
+import {ExportCSV} from '../../services/export';
+
 import {Container, 
   Logo,  
   DimLogo, 
@@ -29,6 +31,7 @@ export default function Admin({history}) {
 
   const [menu, setMenu] = useState(false);
   const [caminho, setCaminho] = useState('admin');
+  //const [caminho, setCaminho] = useState('users');
 
   const [price, setPrice] = useState(0);
   const [credits, setCredits] = useState(0);
@@ -44,6 +47,7 @@ export default function Admin({history}) {
   const [user_name, setUserName] = useState('');
   const [user_code, setUserCode] = useState('');
   const [user_admin, setUserAdmin] = useState(false);
+  const [backups, setBackups] = useState(0);
 
   useEffect(()=>{
     async function checkAdmin(){
@@ -99,7 +103,7 @@ export default function Admin({history}) {
     if(caminho === 'posts')
       handlePosts();
     setError('');
-  },[caminho])
+  },[caminho, backups])
 
   function handleRadioChange(e){
     e.persist();
@@ -417,6 +421,7 @@ export default function Admin({history}) {
           <>
             <FormContainer>
               <h2>Usuários Cadastrados:</h2>
+              <ExportCSV csvData={users} fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
               <table>
                 <thead>
                   <tr>
@@ -502,6 +507,7 @@ export default function Admin({history}) {
           <>
             <FormContainer>
               <h2>Arquivos:</h2>
+              <ExportCSV csvData={posts} fileName={`Backup_Arquivos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
               <table>
                 <thead>
                   <tr>
