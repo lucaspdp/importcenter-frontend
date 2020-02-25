@@ -60,7 +60,8 @@ export const Container = styled.div`
   background: #fff;
 
   width: 100%;
-  height: 75vh;
+  min-height: 75vh;
+  height: 100%;
 
   margin-top: 5vh;
 

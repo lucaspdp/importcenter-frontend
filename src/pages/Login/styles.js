@@ -133,6 +133,10 @@ export const Form = styled.form`
 
     color: white;
     font-size: 1.5rem;
+    transition-duration: 0.2s;
+    &:hover{
+      transform: translate(0, -5px)
+    }
     ${props => props.isMobile && (
       `width: 40vw;
       height: 4vh;

@@ -1,6 +1,6 @@
 import {createGlobalStyle} from 'styled-components';
 
-import Bandeira from '../assets/Bandeira/Bandeira.svg';
+import Bandeira from '../assets/Bandeira/Bandeira.jpg';
 
 export default createGlobalStyle`
 
