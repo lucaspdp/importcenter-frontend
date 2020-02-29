@@ -207,17 +207,36 @@ export const PostsContainer = styled.div`
 
     ul{
       display: flex;
-      flex-direction: column-reverse;
+      flex-direction: column;
       margin-top: 10px;
       list-style: none;
       overflow-y: scroll;
       overflow-x: hidden;
       display: flex;
-      flex-direction: column-reverse;
 
-      &::-webkit-scrollbar{
-        width: 0;
-      }
+      
+    /* width */
+    &::-webkit-scrollbar {
+      width: 20px;
+      padding-right: 5px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px grey; 
+      border-radius: 10px;
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #5e5e5e; 
+      border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2e2e2e; 
+    }
 
       li{
         display: flex;
@@ -243,9 +262,15 @@ export const PostsContainer = styled.div`
           align-items: center;
 
           .desc{
-            font-size: 2rem;
             margin-left: 30px;
             color: #7e7e7e;
+
+            @media screen and (min-width: 100px){
+              font-size: 1rem;
+            }
+            @media screen and (min-width: 700px){
+              font-size: 2rem;
+            }
           }
           .placa{
             margin-left: 30px;
@@ -274,7 +299,10 @@ export const PostsContainer = styled.div`
           }
           span{
             color: #f33;
-            margin-right: 20px;
+            margin-right: 40px;
+          }
+          span.placa{
+            color: #933;
           }
         }
       }

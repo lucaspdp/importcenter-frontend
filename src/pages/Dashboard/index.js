@@ -123,12 +123,11 @@ export default function Dashboard({history}) {
           <span className='title'>Remaps</span>
           <span className='saldo' style={{color: credits<0&&'#f00'}}>Saldo: R${parseFloat(credits).toFixed(2)}</span>
           <ul>
-            {posts.map(post=>(
+            {posts.reverse().map(post=>(
               <li key={post._id}>
                   <div className="left-side">
                     <img src={DIcon} alt='DimSport-logo' />
                     <span className='desc'>{post.vehicle}</span>
-                    <span className='placa'>{post.brand}</span>
                   </div>
                   <div className="right-side">
                     <button type='button' className='download' onClick={()=>{
@@ -137,7 +136,10 @@ export default function Dashboard({history}) {
                       else
                         handleBuy(post._id);
                     }}>{post.bought ? 'Download' : 'Comprar'}</button>
-                    <span className='price'>R${post.price}</span>
+                    <div>
+                      <span className='placa'>{post.brand}</span>
+                      <span className='price'>R${post.price}</span>
+                    </div>
                   </div>
 
               </li>
