@@ -202,13 +202,14 @@ export default function Admin({history}) {
       return setError(errorMsg);
     })
 
-    if (response)
+    if (response){
       alert('Post criado com sucesso!')
       setVehicle("");
       setPrice(0);
       setUrl("");
       setBrand("");
       setEmail("");
+    }
   }
 
   async function handleDelete(post_id, placa){
