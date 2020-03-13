@@ -170,15 +170,21 @@ export default function Admin({history}) {
         admin_id: id,
       }
     }).catch(err=>{
-      const errorMsg = err.response.data.error;
-      return setError(errorMsg)
+      if(err.message !== "Network Error"){
+        const errorMsg = err.response.data.error;
+        return setError(errorMsg);
+      }
     })
 
     if(response){
-      if(credits > 0)
-        alert(`A quantia de ${credits} foi adicionada ao usuário!`)
-      if(credits < 0)
-        alert(`A quantia de ${credits} foi removida do usuário!`)
+      if(response.status === 200){
+        if(credits > 0)
+          alert(`A quantia de ${credits} foi adicionada ao usuário!`)
+        if(credits < 0)
+          alert(`A quantia de ${credits} foi removida do usuário!`)
+      }else{
+        alert('Erro, tente novamente!')
+      }
     }
   }
 
@@ -198,17 +204,24 @@ export default function Admin({history}) {
         id
       }
     }).catch(err=>{
-      const errorMsg = err.response.data.error;
-      return setError(errorMsg);
+      if(err.message !== "Network Error"){
+        const errorMsg = err.response.data.error;
+        return setError(errorMsg);
+      }
     })
 
     if (response){
-      alert('Post criado com sucesso!')
-      setVehicle("");
-      setPrice(0);
-      setUrl("");
-      setBrand("");
-      setEmail("");
+      if(response.status === 200){
+        alert('Post criado com sucesso!')
+        setVehicle("");
+        setPrice(0);
+        setUrl("");
+        setBrand("");
+        setEmail("");
+      }
+      else{
+        alert('Erro, tente novamente!')
+      }
     }
   }
 
