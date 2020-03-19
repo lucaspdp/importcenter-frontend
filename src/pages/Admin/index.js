@@ -43,6 +43,7 @@ export default function Admin({history}) {
   const [error, setError] = useState('');
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [creditsHistory, setCreditsHistory] = useState([]);
 
   const [user_name, setUserName] = useState('');
   const [user_code, setUserCode] = useState('');
@@ -93,6 +94,15 @@ export default function Admin({history}) {
 
       setPosts(response.data);
     }
+    async function handleCreditsHistory(){
+      const response = await api.get('/creditshistory', {
+        headers:{
+          id: sessionStorage.getItem('user_id')
+        }
+      });
+
+      setCreditsHistory(response.data);
+    }
 
     if(caminho === 'credits')
       handleCredits();
@@ -102,6 +112,8 @@ export default function Admin({history}) {
       handleUsers();
     if(caminho === 'posts')
       handlePosts();
+    if(caminho === 'creditshistory')
+      handleCreditsHistory();
     setError('');
   },[caminho, backups])
 
@@ -340,6 +352,14 @@ export default function Admin({history}) {
                   val='posts'
                   >Arquivos Cadastrados</MenuSelect>
                 </li>
+                <li key='creditshistory'>
+                  <MenuSelect onClick={(e)=>{
+                    setCaminho('creditshistory');
+                  }}
+                  caminho={caminho.toString()}
+                  val='creditshistory'
+                  >Histórico de Créditos</MenuSelect>
+                </li>
               </ul>
             </Menu>
             <Bars size='40px' onClick={()=>setMenu(!menu)} toggle={!menu}/>
@@ -540,6 +560,30 @@ export default function Admin({history}) {
                       <td>{post.brand}</td>
                       <td><a href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a></td>
                       <td><EditIcon onClick={()=> history.push(`/editpost/${post._id}`)}/> <TrashIcon onClick={()=>handleDelete(post._id, post.brand)}/></td>
+                    </tr>
+                  )).reverse()}
+                </tbody>
+              </table>
+            </FormContainer>
+          </>
+        )}
+        {caminho ==='creditshistory' && (
+          <>
+            <FormContainer>
+              <h2>Creditos:</h2>
+              <ExportCSV csvData={creditsHistory} fileName={`Backup_Creditos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Usuário</th>
+                    <th>Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {creditsHistory.map(transaction=>(
+                    <tr key={transaction._id}>
+                      <td>{transaction.destination.email}</td>
+                      <td>R${parseFloat(transaction.value).toFixed(2)}</td>
                     </tr>
                   )).reverse()}
                 </tbody>

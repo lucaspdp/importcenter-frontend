@@ -8,8 +8,10 @@ export const ExportCSV = ({csvData, fileName, setBackups}) =>{
     const fileExtension = '.xlsx';
 
     const exportToCSV = (csvData, fileName) => {
+        // eslint-disable-next-line
         csvData.map((client, i)=>{
             if(csvData[i].statement){
+                // eslint-disable-next-line
                 csvData[i].statement.map((statement, ii)=>{
                     if(csvData[i].statement[ii].date){
                         csvData[i].statement[ii].date = new Date(csvData[i].statement[ii].date).toLocaleDateString();
