@@ -344,14 +344,6 @@ export default function Admin({history}) {
                   val='register'
                   >Cadastrar Cliente</MenuSelect>
                 </li>
-                <li key='posts'>
-                  <MenuSelect onClick={(e)=>{
-                    setCaminho('posts');
-                  }}
-                  caminho={caminho.toString()}
-                  val='posts'
-                  >Arquivos Cadastrados</MenuSelect>
-                </li>
                 <li key='creditshistory'>
                   <MenuSelect onClick={(e)=>{
                     setCaminho('creditshistory');
@@ -359,6 +351,14 @@ export default function Admin({history}) {
                   caminho={caminho.toString()}
                   val='creditshistory'
                   >Histórico de Créditos</MenuSelect>
+                </li>
+                <li key='posts'>
+                  <MenuSelect onClick={(e)=>{
+                    setCaminho('posts');
+                  }}
+                  caminho={caminho.toString()}
+                  val='posts'
+                  >Arquivos Cadastrados</MenuSelect>
                 </li>
               </ul>
             </Menu>
@@ -438,9 +438,9 @@ export default function Admin({history}) {
 
                 <label for="motivo">Tipo de transação: </label>
                 <input 
-                  type="email" 
-                  id="email" 
-                  name="Email" 
+                  type="text" 
+                  id="tType" 
+                  name="tType" 
                   value={tType}
                   onChange={(e)=>setTType(e.target.value)}
                 />
