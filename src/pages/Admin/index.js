@@ -291,7 +291,45 @@ export default function Admin({history}) {
       }
     }
   }
-}
+  }
+
+  async function handleDeleteCredit(destino, valor, date){
+    // eslint-disable-next-line no-restricted-globals
+    let res = confirm(`Você deseja remover R$${parseFloat(valor).toFixed(2)} de ${destino}?\n[SIM] Para sim   [CANCELAR] Para não`);
+  
+    if(res){
+      // eslint-disable-next-line no-restricted-globals
+      let res2 = confirm(`Confirmar ação?\nRemover R$${parseFloat(valor).toFixed(2)} de ${destino}?`);
+    
+      if(res2){
+
+        //router.delete('/creditshistory/:date', AdminCredits.delete);
+        const response = await api.delete(`/creditshistory/${date}`,{
+          data:{  
+            credit: true
+          },
+          headers:{
+            id: sessionStorage.getItem('user_id')
+          }
+        }).catch(err=>{
+          const errorMsg = err.response.data.error;
+          return setError(errorMsg);
+        });
+    
+        if(response){
+          alert("Créditos removidos com sucesso!");
+    
+          const res = await api.get('/creditshistory', {
+            headers:{
+              id: sessionStorage.getItem('user_id')
+            }
+          });
+    
+          setCreditsHistory(res.data);
+        }
+      }
+    }
+  }
 
   return (
     <>
@@ -577,6 +615,7 @@ export default function Admin({history}) {
                   <tr>
                     <th>Usuário</th>
                     <th>Valor</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -584,6 +623,7 @@ export default function Admin({history}) {
                     <tr key={transaction._id}>
                       <td>{transaction.destination.email}</td>
                       <td>R${parseFloat(transaction.value).toFixed(2)}</td>
+                      <td>{transaction.date && <TrashIcon onClick={()=>handleDeleteCredit(transaction.destination.email, transaction.value, transaction.date)}/>}</td>
                     </tr>
                   )).reverse()}
                 </tbody>
