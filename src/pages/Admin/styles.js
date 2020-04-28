@@ -379,3 +379,18 @@ export const EditIcon = styled(FaPencilAlt)`
   color: #c33f3f;
   cursor: pointer;
 `;
+
+export const ButtonPremade = styled.button`
+  width: 150px;
+  font-size: 5px;
+`;
+
+export const PremadeDiv = styled.div`
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px auto;
+
+`;

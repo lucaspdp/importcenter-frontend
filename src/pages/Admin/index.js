@@ -17,7 +17,9 @@ import {Container,
   ExitButton,
   RadioLabel,
   TrashIcon,
-  EditIcon
+  EditIcon,
+  ButtonPremade,
+  PremadeDiv
  } from './styles';
 
 
@@ -331,6 +333,10 @@ export default function Admin({history}) {
     }
   }
 
+  function setTextTType(e, text){
+    e.preventDefault();
+    setTType(text);
+  }
   return (
     <>
       <ExitButton onClick={()=>{
@@ -483,6 +489,11 @@ export default function Admin({history}) {
                   onChange={(e)=>setTType(e.target.value)}
                 />
 
+                <PremadeDiv>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Boleto")}>Boleto</ButtonPremade>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Depósito")}>Depósito</ButtonPremade>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Cartão")}>Cartão</ButtonPremade>
+                </PremadeDiv>
                 <button type="submit" onClick={handleCredits}>Enviar</button>
               </form>
               <span className="errorSpan">{error}</span>
