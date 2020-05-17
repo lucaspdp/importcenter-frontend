@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useHistory } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 
 import { Container, Logo, DimLogo, Form, AlientechLogo } from './styles';
@@ -7,7 +8,8 @@ import DimSportImg from '../../assets/Dimsport-logo.png'
 import Alientech from '../../assets/alientech.png'
 import api from '../../services/api'
 
-export default function Login({history}) {
+export default function Login() {
+  const history = useHistory();
 
   const [key, setKey] = useState('');
 

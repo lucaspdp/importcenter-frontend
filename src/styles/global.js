@@ -4,7 +4,7 @@ import Bandeira from '../assets/Bandeira/Bandeira.jpg';
 
 export default createGlobalStyle`
 
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
   
   *{
     margin: 0;
@@ -19,7 +19,7 @@ export default createGlobalStyle`
   body{
     -webkit-font-smoothing: antialiased !important;
 
-    background: url(${Bandeira}) ;
+    background: url(${Bandeira}) fixed center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -36,6 +36,31 @@ export default createGlobalStyle`
   }
 
   #root{
-    background: linear-gradient(90deg, #ffffff5f, #0000005f)
+    background: linear-gradient(90deg, #ffffff5f, #0000005f);
   }
+
+  div.fade-enter, div.fader-exit, div.fade-enter-done{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  div.fade-enter, div.fade-appear{
+    opacity: 0;
+    z-index: 1;
+  }
+  div.fade-appear-active,
+  div.fade-enter.fade-enter-active{
+    opacity: 1;
+    transition: opacity 150ms linear 50ms;
+  }
+  div.fade-exit{
+    opacity: 1;
+  }
+  div.fade-exit.fade-exit-active{
+    opacity: 0;
+    transition: opacity 150ms linear;
+  }
+  
 `;

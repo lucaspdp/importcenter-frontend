@@ -173,7 +173,7 @@ export const Menu = styled.div`
       }
     };
     
-    ${props=>props.toggle ? 'transform: translate(-300px, 0);' 
+    ${props=>props.toggle? 'transform: translate(-300px, 0);' 
     : 'transform: translate(0, 0)'}
 
 `;
@@ -260,6 +260,7 @@ export const PostsContainer = styled.div`
           display: flex;
           flex-direction: row;
           align-items: center;
+          margin-left: 15px;
 
           .desc{
             margin-left: 30px;
@@ -318,5 +319,6 @@ export const ExitButton = styled(FaWindowClose)`
   width: 50px;
   height: 50px;
   color: white;
+  cursor: pointer;
 
 `

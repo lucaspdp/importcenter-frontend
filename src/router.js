@@ -8,10 +8,10 @@ import EditUser from './pages/EditUser';
 import Credits from './pages/Credits';
 import EditPost from './pages/EditPost';
 
-export default function src() {
+export default function Router() {
   return (
     <BrowserRouter>
-      <Switch>
+      <Switch >
         <Route path='/' exact component={Login}/>
         <Route path='/credits' exact component={Credits}/>
         <Route path='/dashboard' exact component={Dashboard}/>

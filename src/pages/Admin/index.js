@@ -19,7 +19,7 @@ import {Container,
   TrashIcon,
   EditIcon,
   ButtonPremade,
-  PremadeDiv
+  PremadeDiv,
  } from './styles';
 
 

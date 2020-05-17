@@ -344,13 +344,18 @@ export const FormContainer = styled.div`
 `;
 
 export const ExitButton = styled(FaWindowClose)`
-
   position: absolute;
   top: 0;
   right: 0;
   width: 50px;
   height: 50px;
   color: white;
+  cursor: pointer;
+  transition: color 0.25s;
+
+  &:hover{
+    color: #cecece;
+  }
 
 `
 
