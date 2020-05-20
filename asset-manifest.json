@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.js": "/importcenter-frontend/static/js/main.c41914bc.chunk.js",
+    "main.js.map": "/importcenter-frontend/static/js/main.c41914bc.chunk.js.map",
+    "runtime-main.js": "/importcenter-frontend/static/js/runtime-main.659752f3.js",
+    "runtime-main.js.map": "/importcenter-frontend/static/js/runtime-main.659752f3.js.map",
+    "static/js/2.6366bbd5.chunk.js": "/importcenter-frontend/static/js/2.6366bbd5.chunk.js",
+    "static/js/2.6366bbd5.chunk.js.map": "/importcenter-frontend/static/js/2.6366bbd5.chunk.js.map",
+    "index.html": "/importcenter-frontend/index.html",
+    "precache-manifest.2ba9ce0a750b60aacc4838201893c7a0.js": "/importcenter-frontend/precache-manifest.2ba9ce0a750b60aacc4838201893c7a0.js",
+    "service-worker.js": "/importcenter-frontend/service-worker.js",
+    "static/media/Bandeira.jpg": "/importcenter-frontend/static/media/Bandeira.ac9de670.jpg",
+    "static/media/D-Icon.png": "/importcenter-frontend/static/media/D-Icon.34c548f2.png",
+    "static/media/Dimsport-logo.png": "/importcenter-frontend/static/media/Dimsport-logo.48e74cdc.png",
+    "static/media/alientech.png": "/importcenter-frontend/static/media/alientech.66fb3a91.png",
+    "static/media/import-center.png": "/importcenter-frontend/static/media/import-center.fa766f30.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.659752f3.js",
+    "static/js/2.6366bbd5.chunk.js",
+    "static/js/main.c41914bc.chunk.js"
+  ]
+}
