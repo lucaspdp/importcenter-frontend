@@ -108,7 +108,6 @@ export const Menu = styled.div`
     height: 74vh;
     width: 300px;
 
-
     transition-duration: 0.5s;
 
     border-right: 6px solid #7E7E7E;
@@ -151,6 +150,7 @@ export const Menu = styled.div`
     }
 
     .extrato{
+      padding: 0 10px;
       .title{
         display: flex;
         align-items: center;

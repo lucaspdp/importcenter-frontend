@@ -146,3 +146,30 @@ export const Form = styled.form`
   }
 
 `;
+
+export const LoadingDiv = styled.div`
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  background: #7777777f;
+
+  @keyframes spin{
+    from{
+      transform: rotate(0deg);
+    }
+    to{
+      transform: rotate(360deg);
+    }
+  }
+  img{
+    height: 40px;
+    width: 40px;
+    animation: spin 1s infinite linear;
+  }
+`;
