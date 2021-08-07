@@ -29,7 +29,7 @@ export const ExportCSV = ({csvData, fileName, setBackups}) =>{
                 let destination = csvData[i].destination
                 delete csvData[i].admin;
                 csvData[i].bought = csvData[i].bought === true ? "Comprado" : "Sem comprar";
-                csvData[i].destino = destination.code
+                csvData[i].destino = destination ? destination.code : 'Usuário deletado'
             }
         })
         

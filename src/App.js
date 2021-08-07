@@ -1,6 +1,7 @@
 import { CssBaseline } from '@material-ui/core';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
+import GlobalStyle from './styles/global'
 
 import Router from './router';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,10 +11,10 @@ function App() {
   return (
     <>
     
-      <ToastContainer />
-      <CssBaseline />
+      {/* <ToastContainer /> */}
+      {/* <CssBaseline /> */}
       <Router />
-      {/* <GlobalStyle /> */}
+      <GlobalStyle />
     </>
   );
 }

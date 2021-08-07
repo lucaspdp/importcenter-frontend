@@ -300,46 +300,46 @@ export const FormContainer = styled.div`
     margin: 0 5px;
   }
 
-  table {
-    border-collapse: collapse;
-    width: 80%;
-    z-index: 5
-  }
-  th, td {
-    text-align: left;
-    padding: 8px;
-  }
+   table {
+     border-collapse: collapse;
+     width: 80%;
+     z-index: 5
+   }
+  // th, td {
+  //   text-align: left;
+  //   padding: 8px;
+  // }
 
-  td a{
-    text-decoration: none;
-    color: #53f;
-    transition-duration: 0.2s;
-    &:hover{
-      color: #10a;
-    }
-    &:visited{
-      color: #53f;
-      &:hover{
-        color: #10a;
-      }
-    }
-  }
-  td:last-child{
-    display: flex;
-    flex-direction: row;
+  // td a{
+  //   text-decoration: none;
+  //   color: #53f;
+  //   transition-duration: 0.2s;
+  //   &:hover{
+  //     color: #10a;
+  //   }
+  //   &:visited{
+  //     color: #53f;
+  //     &:hover{
+  //       color: #10a;
+  //     }
+  //   }
+  // }
+  // td:last-child{
+  //   display: flex;
+  //   flex-direction: row;
 
-    svg{
-      margin-right: 10px;
-    }
-  }
+  //   svg{
+  //     margin-right: 10px;
+  //   }
+  // }
 
-  tr:nth-child(even){background-color: #fee}
-  tr:not(:nth-child(even)){background-color: #fdd}
+  // tr:nth-child(even){background-color: #fee}
+  // tr:not(:nth-child(even)){background-color: #fdd}
 
-  th {
-    background-color: #c33f3f;
-    color: white;
-  }
+  // th {
+  //   background-color: #c33f3f;
+  //   color: white;
+  // }
 
 `;
 

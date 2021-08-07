@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { isMobile } from 'react-device-detect';
 import CurrencyInput from 'react-currency-input';
+import { TableContainer, Table, TableBody, TableRow, TableCell, TableHead, TablePagination } from '@material-ui/core'
 
 import {ExportCSV} from '../../services/export';
 
@@ -28,12 +29,13 @@ import LogoImg from '../../assets/import-center.png'
 import DimSportImg from '../../assets/Dimsport-logo.png'
 import Alientech from '../../assets/alientech.png'
 import api from '../../services/api';
+import DataTable from 'react-data-table-component';
 
 export default function Admin({history}) {
 
   const [menu, setMenu] = useState(false);
   const [caminho, setCaminho] = useState('admin');
-  //const [caminho, setCaminho] = useState('users');
+  // const [caminho, setCaminho] = useState('posts');
 
   const [price, setPrice] = useState(0);
   const [credits, setCredits] = useState(0);
@@ -51,6 +53,10 @@ export default function Admin({history}) {
   const [user_code, setUserCode] = useState('');
   const [user_admin, setUserAdmin] = useState(false);
   const [backups, setBackups] = useState(0);
+
+  const [creditsPage, setCreditsPage] = useState(0)
+  const [searchEmail, setSearchEmail] = useState('')
+  const [credistRowsPerPage, setCreditsRowsPerPage] = useState(25)
 
   useEffect(()=>{
     async function checkAdmin(){
@@ -84,7 +90,8 @@ export default function Admin({history}) {
         }
       });
 
-      setUsers(response.data);
+      let reversed = response.data.reverse()
+      setUsers(reversed);
     }
 
     async function handlePosts(){
@@ -94,7 +101,8 @@ export default function Admin({history}) {
         }
       });
 
-      setPosts(response.data);
+      let reversed = response.data.reverse()
+      setPosts(reversed);
     }
     async function handleCreditsHistory(){
       const response = await api.get('/creditshistory', {
@@ -103,7 +111,8 @@ export default function Admin({history}) {
         }
       });
 
-      setCreditsHistory(response.data);
+      let reversed = response.data.reverse()
+      setCreditsHistory(reversed);
     }
 
     if(caminho === 'credits')
@@ -505,28 +514,32 @@ export default function Admin({history}) {
             <FormContainer>
               <h2>Usuários Cadastrados:</h2>
               <ExportCSV csvData={users} fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Código</th>
-                    <th>Créditos</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map(user=>(
-                    <tr key={user._id}>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.code}</td>
-                      <td>R${parseFloat(user.credits).toFixed(2)}</td>
-                      <td><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/>  <TrashIcon onClick={()=> handleDeleteUser(user._id, user.email)}/></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <DataTable
+                customStyles={{
+                  headRow:{
+                    style:{
+                      backgroundColor: '#eee'
+                    }
+                  },
+                  table:{
+                    style:{
+                      width: '90%',
+                      margin: '0 auto'
+                    }
+                  }
+                }}
+                columns={[
+                  {name: "Nome", cell: user=> user.name},
+                  {name: "Email", cell: user=> user.email},
+                  {name: "Código", cell: user=> user.code},
+                  {name: "Créditos", cell: user=> <span>R${parseFloat(user.credits).toFixed(2)}</span>},
+                  {name: "", cell: user=> <><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/>  <TrashIcon onClick={()=> handleDeleteUser(user._id, user.email)}/></>}
+                ]} 
+                paginationPerPage={25}
+                pagination
+                data={users}
+                fixedHeader
+                />
             </FormContainer>
           </>
         )}
@@ -591,28 +604,32 @@ export default function Admin({history}) {
             <FormContainer>
               <h2>Arquivos:</h2>
               <ExportCSV csvData={posts} fileName={`Backup_Arquivos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Usuário</th>
-                    <th>Veículo</th>
-                    <th>Placa</th>
-                    <th>URL</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {posts.map(post=>(
-                    <tr key={post._id}>
-                      <td>{post.destination.email}</td>
-                      <td>{post.vehicle}</td>
-                      <td>{post.brand}</td>
-                      <td><a href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a></td>
-                      <td><EditIcon onClick={()=> history.push(`/editpost/${post._id}`)}/> <TrashIcon onClick={()=>handleDelete(post._id, post.brand)}/></td>
-                    </tr>
-                  )).reverse()}
-                </tbody>
-              </table>
+              <DataTable
+                customStyles={{
+                  headRow:{
+                    style:{
+                      backgroundColor: '#eee'
+                    }
+                  },
+                  table:{
+                    style:{
+                      width: '90%',
+                      margin: '0 auto'
+                    }
+                  }
+                }}
+                columns={[
+                  {name: "Usuário", cell: post=> post.destination?post.destination.email:'Usuário deletado'},
+                  {name: "Veículo", maxWidth: '200px', cell: post=> post.vehicle},
+                  {name: "Placa", maxWidth: '100px', cell: post=> post.brand},
+                  {name: "URL", cell: post=> <a href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a>},
+                  {name: "", maxWidth: '40px', cell: post=> <><EditIcon onClick={()=> history.push(`/editpost/${post._id}`)}/> <TrashIcon onClick={()=>handleDelete(post._id, post.brand)}/></>}
+                ]} 
+                paginationPerPage={25}
+                pagination
+                data={posts}
+                fixedHeader
+                />
             </FormContainer>
           </>
         )}
@@ -621,24 +638,31 @@ export default function Admin({history}) {
             <FormContainer>
               <h2>Creditos:</h2>
               <ExportCSV csvData={creditsHistory} fileName={`Backup_Creditos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Usuário</th>
-                    <th>Valor</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {creditsHistory.map(transaction=>(
-                    <tr key={transaction._id}>
-                      <td>{transaction.destination.email}</td>
-                      <td>R${parseFloat(transaction.value).toFixed(2)}</td>
-                      <td>{transaction.date && <TrashIcon onClick={()=>handleDeleteCredit(transaction.destination.email, transaction.value, transaction.date)}/>}</td>
-                    </tr>
-                  )).reverse()}
-                </tbody>
-              </table>
+              <DataTable
+                customStyles={{
+                  headRow:{
+                    style:{
+                      backgroundColor: '#eee'
+                    }
+                  },
+                  table:{
+                    style:{
+                      width: '90%',
+                      margin: '0 auto'
+                    }
+                  }
+                }}
+                columns={[
+                  {name: "Cliente", cell: transaction=> transaction.destination?transaction.destination.email:'Usuário deletado'},
+                  {name: "Valor", maxWidth: '200px', cell: transaction=> <span>R${parseFloat(transaction.value).toFixed(2)}</span>},
+                  {name: "", maxWidth: '40px', cell: transaction=> {if(transaction.date) return <TrashIcon onClick={()=>handleDeleteCredit(transaction.destination.email, transaction.value, transaction.date)}/>}}
+                ]} 
+                paginationPerPage={25}
+                pagination
+                fixedHeader
+                dense={true}
+                data={creditsHistory}
+                />
             </FormContainer>
           </>
         )}
