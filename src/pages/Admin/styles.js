@@ -378,6 +378,7 @@ export const TrashIcon = styled(FaTrash)`
 
   color: #c33f3f;
   cursor: pointer;
+  margin-left: 5px;
 
 `
 
