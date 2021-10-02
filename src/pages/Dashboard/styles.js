@@ -9,8 +9,8 @@ export const Logo = styled.img`
   position: initial;
 
   ${props => props.isMobile && (
-    `width: 80%;
-    height: 12%;`
+    `width: 60%;
+    object-fit: scale-down;`
   )};
 
 `;
@@ -23,8 +23,8 @@ export const DimLogo = styled.img`
 
   margin-top: 2px;
   ${props => props.isMobile && (
-    `width: 40%;
-    height: 6%;`
+    `width: 20%;
+    object-fit: scale-down;`
   )};
 
 `;
@@ -50,8 +50,8 @@ export const AlientechLogo = styled.img`
       drop-shadow(var(--stroke-neg) var(--stroke-neg) 0 var(--stroke-color));   
 
   ${props => props.isMobile && (
-    `width: 40%;
-    height: 6%;`
+    `width: 20%;
+    object-fit: scale-down;`
   )};
 
 `;
@@ -97,6 +97,7 @@ export const Bars = styled(FaBars)`
   cursor: pointer;
   
   transition-duration: 0.5s;
+  z-index: 2;
     
   ${props=>props.toggle ? 'transform: translate(-300px, 0);' 
   : 'transform: translate(0, 0)'}
@@ -173,8 +174,8 @@ export const Menu = styled.div`
       }
     };
     
-    ${props=>props.toggle? 'transform: translate(-300px, 0);' 
-    : 'transform: translate(0, 0)'}
+    ${props=>props.toggle? (`transform: translate(-300px, 0);`) 
+    : `transform: translate(0, 0);  z-index: 2;`}
 
 `;
 
@@ -189,8 +190,9 @@ export const PostsContainer = styled.div`
     flex-direction: column;
 
     align-items: center;
+    z-index: 1;
 
-    overflow-y: scroll;
+    overflow-y: auto;
     &::-webkit-scrollbar{
         width: 0;
     }
@@ -210,7 +212,7 @@ export const PostsContainer = styled.div`
       flex-direction: column;
       margin-top: 10px;
       list-style: none;
-      overflow-y: scroll;
+      overflow-y: auto;
       overflow-x: hidden;
       display: flex;
 
@@ -272,6 +274,9 @@ export const PostsContainer = styled.div`
             @media screen and (min-width: 700px){
               font-size: 2rem;
             }
+            @media screen and (max-width: 720px){
+              margin-left: 5px;
+            }
           }
           .placa{
             margin-left: 30px;
@@ -292,6 +297,10 @@ export const PostsContainer = styled.div`
             font-size: 2.5em;
             color: #EE1C25;
             transition-duration: 0.2s;
+            @media screen and (max-width: 720px){
+              margin-right: 5px;
+              font-size: 1.5rem;
+            }
 
             &:hover{
               color: #f33;
@@ -299,8 +308,13 @@ export const PostsContainer = styled.div`
             }
           }
           span{
-            color: #f33;
+            color: #f33;            
             margin-right: 40px;
+
+            @media screen and (max-width: 720px){
+              margin-right: 5px;
+              font-size: .8rem;
+            }
           }
           span.placa{
             color: #933;

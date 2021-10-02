@@ -105,7 +105,7 @@ export const Form = styled.form`
     ${props => props.isMobile && (
       `width: 80vw;
       height: 8vh;
-      font-size: 3.5rem;
+      font-size: 1.5rem;
       margin-top: 200px;`
     )};
 
@@ -139,8 +139,8 @@ export const Form = styled.form`
     }
     ${props => props.isMobile && (
       `width: 40vw;
-      height: 4vh;
-      font-size: 2.5rem;
+      height: 40px;
+      font-size: 1.5rem;
       margin-top: 50px;`
     )};
   }

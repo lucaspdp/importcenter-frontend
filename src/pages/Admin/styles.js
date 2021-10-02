@@ -9,8 +9,8 @@ export const Logo = styled.img`
   position: initial;
 
   ${props => props.isMobile && (
-    `width: 80%;
-    height: 12%;`
+    `width: 60%;
+    object-fit: scale-down;`
   )};
 
 `;
@@ -23,8 +23,8 @@ export const DimLogo = styled.img`
 
   margin-top: 2px;
   ${props => props.isMobile && (
-    `width: 40%;
-    height: 6%;`
+    `width: 20%;
+    object-fit: scale-down;`
   )};
 
 `;
@@ -50,8 +50,8 @@ export const AlientechLogo = styled.img`
       drop-shadow(var(--stroke-neg) var(--stroke-neg) 0 var(--stroke-color));   
 
   ${props => props.isMobile && (
-    `width: 40%;
-    height: 6%;`
+    `width: 20%;
+    object-fit: scale-down;`
   )};
 
 `;
@@ -88,7 +88,7 @@ export const Nav = styled.div`
 
   position: absolute;
   user-select: none;
-   ${props=>props.toggle ? 'z-index: 4': 'z-index: 6'};
+  ${props=>props.toggle ? `z-index: 0`: 'z-index: 6'};
 `;
 
 export const Bars = styled(FaBars)`
@@ -270,6 +270,7 @@ export const FormContainer = styled.div`
       padding: 10px;
       transition-duration: 0.2s;
       color: #555;
+      z-index: 1;
       &:hover{
         border: 1px solid #f33;
       }
@@ -287,6 +288,7 @@ export const FormContainer = styled.div`
       font-size: 1.5rem;
       color: #fff;
       transition-duration: 0.2s;
+      z-index: 1;
 
       &:hover{
         background: #f33;
@@ -399,3 +401,31 @@ export const PremadeDiv = styled.div`
   margin: 20px auto;
 
 `;
+
+export const FilterContainer = styled.div`
+  padding: 10px;
+  border-radius: 5px;
+  background: #eee;
+  margin-bottom: 10px;
+  width: 90%;
+  z-index: 5;
+
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+
+  div{
+    display: flex;
+
+    label{
+      font-size: 1.2rem;
+    }
+    input{
+      font-size: .8rem;
+      margin-left: 5px;
+      border: none;
+      padding: 5px;
+      width: 100%;
+    }
+  }
+`

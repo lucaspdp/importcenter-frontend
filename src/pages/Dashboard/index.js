@@ -36,9 +36,8 @@ export default function Dashboard({history}) {
           id
         }
       });
-      
 
-      setStatements(response.data);
+      setStatements(response.data.slice(0, 50));
     }
 
     async function getCredits(){

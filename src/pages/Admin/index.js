@@ -21,6 +21,7 @@ import {Container,
   EditIcon,
   ButtonPremade,
   PremadeDiv,
+  FilterContainer,
  } from './styles';
 
 
@@ -45,14 +46,28 @@ export default function Admin({history}) {
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
   const [creditsHistory, setCreditsHistory] = useState([]);
+  const [filteredCreditsHistory, setFilteredCreditsHistory] = useState([]);
 
   const [user_name, setUserName] = useState('');
   const [user_code, setUserCode] = useState('');
   const [user_admin, setUserAdmin] = useState(false);
   const [backups, setBackups] = useState(0);
+
+  const [emailSearch, setEmailSearch] = useState('');
+  const [codeSearchUsers, setCodeSearchUsers] = useState('')
+  const [placaSearch, setPlacaSearch] = useState('');
+  
+  const [emailSearchCredits, setEmailSearchCredits] = useState('');
+
+  const [emailSearchUsers, setEmailSearchUsers] = useState('');
 
   const [creditsPage, setCreditsPage] = useState(0)
   const [searchEmail, setSearchEmail] = useState('')
@@ -127,6 +142,52 @@ export default function Admin({history}) {
       handleCreditsHistory();
     setError('');
   },[caminho, backups])
+
+  useEffect(()=>{
+    if(caminho === 'posts'){
+      let filterEmail = posts;
+      if(emailSearch) filterEmail = filterEmail.filter(post=>{
+        return post.destination?.email.includes(emailSearch)
+      })
+      let filterPlaca = filterEmail;
+      if(placaSearch) filterPlaca = filterPlaca.filter(post => {
+        return post.brand.toLowerCase().includes(placaSearch.toLowerCase())
+      })
+  
+      const filtered = filterPlaca
+  
+      setFilteredPosts(filtered)
+    }
+  }, [posts, emailSearch, placaSearch])
+
+  useEffect(()=>{
+    if(caminho === 'creditshistory'){
+      let filterEmail = creditsHistory;
+      if(emailSearchCredits) filterEmail = filterEmail.filter(transaction=>{
+        return transaction.destination?.email.includes(emailSearchCredits)
+      })
+  
+      const filtered = filterEmail
+  
+      setFilteredCreditsHistory(filtered)
+    }
+  }, [creditsHistory, emailSearchCredits])
+  
+  useEffect(()=>{
+    if(caminho === 'users'){
+      let filterEmail = users;
+      if(emailSearchUsers) filterEmail = filterEmail.filter(user=>{
+        return user.email.toLowerCase().includes(emailSearchUsers.toLowerCase())
+      })
+      const filterCode = filterEmail.filter(user=> {
+        return user.code.toLowerCase().includes(codeSearchUsers.toLowerCase())
+      })
+  
+      const filtered = filterCode
+  
+      setFilteredUsers(filtered)
+    }
+  }, [users, emailSearchUsers, codeSearchUsers])
 
   function handleRadioChange(e){
     e.persist();
@@ -205,6 +266,9 @@ export default function Admin({history}) {
           alert(`A quantia de ${credits} foi adicionada ao usuário!`)
         if(credits < 0)
           alert(`A quantia de ${credits} foi removida do usuário!`)
+        
+          setCredits(0);
+          setTType('')
       }else{
         alert('Erro, tente novamente!')
       }
@@ -346,6 +410,7 @@ export default function Admin({history}) {
     e.preventDefault();
     setTType(text);
   }
+
   return (
     <>
       <ExitButton onClick={()=>{
@@ -514,6 +579,16 @@ export default function Admin({history}) {
             <FormContainer>
               <h2>Usuários Cadastrados:</h2>
               <ExportCSV csvData={users} fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
+              <FilterContainer>
+                <div id="emailsearch">
+                  <label for="email">Email</label>
+                  <input id="email" type='text' value={emailSearchUsers} onChange={e=> setEmailSearchUsers(e.target.value)} />
+                </div>
+                <div id="codeSearch">
+                  <label for="email">Código</label>
+                  <input id="email" type='text' value={codeSearchUsers} onChange={e=> setCodeSearchUsers(e.target.value)} />
+                </div>
+              </FilterContainer>
               <DataTable
                 customStyles={{
                   headRow:{
@@ -533,11 +608,11 @@ export default function Admin({history}) {
                   {name: "Email", cell: user=> user.email},
                   {name: "Código", cell: user=> user.code},
                   {name: "Créditos", cell: user=> <span>R${parseFloat(user.credits).toFixed(2)}</span>},
-                  {name: "", cell: user=> <><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/>  <TrashIcon onClick={()=> handleDeleteUser(user._id, user.email)}/></>}
+                  {name: "", cell: user=> <><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/>  <TrashIcon className="ml-5" onClick={()=> handleDeleteUser(user._id, user.email)}/></>}
                 ]} 
                 paginationPerPage={25}
                 pagination
-                data={users}
+                data={filteredUsers}
                 fixedHeader
                 />
             </FormContainer>
@@ -604,6 +679,16 @@ export default function Admin({history}) {
             <FormContainer>
               <h2>Arquivos:</h2>
               <ExportCSV csvData={posts} fileName={`Backup_Arquivos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
+              <FilterContainer>
+                <div id="emailsearch">
+                  <label for="email">Email</label>
+                  <input id="email" type='text' value={emailSearch} onChange={e=> setEmailSearch(e.target.value)} />
+                </div>
+                <div id="brandsearch">
+                  <label for="brand">Placa</label>
+                  <input id="brand" type='text' value={placaSearch} onChange={e=> setPlacaSearch(e.target.value)}/>
+                </div>
+              </FilterContainer>
               <DataTable
                 customStyles={{
                   headRow:{
@@ -627,7 +712,7 @@ export default function Admin({history}) {
                 ]} 
                 paginationPerPage={25}
                 pagination
-                data={posts}
+                data={filteredPosts}
                 fixedHeader
                 />
             </FormContainer>
@@ -637,7 +722,13 @@ export default function Admin({history}) {
           <>
             <FormContainer>
               <h2>Creditos:</h2>
-              <ExportCSV csvData={creditsHistory} fileName={`Backup_Creditos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
+              <ExportCSV csvData={filteredCreditsHistory} fileName={`Backup_Creditos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
+              <FilterContainer>
+                <div id="emailsearch">
+                  <label for="email">Email</label>
+                  <input id="email" type='text' value={emailSearchCredits} onChange={e=> setEmailSearchCredits(e.target.value)} />
+                </div>
+              </FilterContainer>
               <DataTable
                 customStyles={{
                   headRow:{
@@ -661,7 +752,7 @@ export default function Admin({history}) {
                 pagination
                 fixedHeader
                 dense={true}
-                data={creditsHistory}
+                data={filteredCreditsHistory}
                 />
             </FormContainer>
           </>

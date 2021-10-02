@@ -62,5 +62,9 @@ export default createGlobalStyle`
     opacity: 0;
     transition: opacity 150ms linear;
   }
+
+  .ml-5{
+      margin-left: 5px;
+  }
   
 `;
