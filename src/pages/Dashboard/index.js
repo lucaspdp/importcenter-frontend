@@ -57,7 +57,7 @@ export default function Dashboard({history}) {
         }
       })
 
-      setPosts(response.data);
+      setPosts(response.data.reverse());
     }
     
     if(sessionStorage.getItem('user_id') === null){
@@ -122,7 +122,7 @@ export default function Dashboard({history}) {
           <span className='title'>Remaps</span>
           <span className='saldo' style={{color: credits<0&&'#f00'}}>Saldo: R${parseFloat(credits).toFixed(2)}</span>
           <ul>
-            {posts.reverse().map(post=>(
+            {posts.map(post=>(
               <li key={post._id}>
                   <div className="left-side">
                     <img src={DIcon} alt='DimSport-logo' />
