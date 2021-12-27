@@ -166,12 +166,16 @@ export default function Admin({history}) {
       if(emailSearchCredits) filterEmail = filterEmail.filter(transaction=>{
         return transaction.destination?.email.includes(emailSearchCredits)
       })
+
+      const filterCode = filterEmail.filter(user=> {
+        return user.destination.code.toLowerCase().includes(codeSearchUsers.toLowerCase())
+      })
   
-      const filtered = filterEmail
+      const filtered = filterCode
   
       setFilteredCreditsHistory(filtered)
     }
-  }, [creditsHistory, emailSearchCredits])
+  }, [creditsHistory, emailSearchCredits, codeSearchUsers])
   
   useEffect(()=>{
     if(caminho === 'users'){
@@ -727,6 +731,10 @@ export default function Admin({history}) {
                 <div id="emailsearch">
                   <label for="email">Email</label>
                   <input id="email" type='text' value={emailSearchCredits} onChange={e=> setEmailSearchCredits(e.target.value)} />
+                </div>
+                <div id="codeSearch">
+                  <label for="email">Código</label>
+                  <input id="email" type='text' value={codeSearchUsers} onChange={e=> setCodeSearchUsers(e.target.value)} />
                 </div>
               </FilterContainer>
               <DataTable

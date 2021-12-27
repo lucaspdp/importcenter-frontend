@@ -415,6 +415,10 @@ export const FilterContainer = styled.div`
   grid-gap: 10px;
   grid-template-columns: repeat(4, 1fr);
 
+  @media screen and (max-width: 1024px){
+    grid-template-columns: repeat(2, 1fr)!important;
+  }
+
   div{
     display: flex;
 
