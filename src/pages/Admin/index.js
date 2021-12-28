@@ -5,6 +5,8 @@ import { TableContainer, Table, TableBody, TableRow, TableCell, TableHead, Table
 
 import {ExportCSV} from '../../services/export';
 
+import Tooltip from 'react-tooltip'
+
 import {Container, 
   Logo,  
   DimLogo, 
@@ -168,7 +170,7 @@ export default function Admin({history}) {
       })
 
       const filterCode = filterEmail.filter(user=> {
-        return user.destination.code.toLowerCase().includes(codeSearchUsers.toLowerCase())
+        return user.destination?.code.toLowerCase().includes(codeSearchUsers.toLowerCase())
       })
   
       const filtered = filterCode
@@ -605,11 +607,46 @@ export default function Admin({history}) {
                       width: '90%',
                       margin: '0 auto'
                     }
+                  },
+                  rows: {
+                    style: {
+                      minHeight: 'none',
+                      ":hover":{
+                        background: '#00000020'
+                      }
+                    }
+                  },
+                  cells: {
+                    style: {
+                      display: 'block',
+                      width: '100%',
+                      overflowX: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      maxWidth: '95%',
+                      margin: 'auto auto'
+                    }
                   }
                 }}
                 columns={[
-                  {name: "Nome", cell: user=> user.name},
-                  {name: "Email", cell: user=> user.email},
+                  {name: "Nome", cell: user=> (<>
+                    <Tooltip id={`user-${user._id}`}>{user.name}</Tooltip>
+                    <span style={{
+                        overflowX: 'hidden',
+                        whiteSpace: 'nowrap', 
+                        textOverflow: 'ellipsis',
+                        maxWidth: '95%'
+                      }} data-tip='' data-for={`user-${user._id}`}>{user.name}</span>
+                  </>)},
+                  {name: "Email", cell: user=> (<>
+                    <Tooltip id={`user-email-${user._id}`}>{user.email}</Tooltip>
+                    <span style={{
+                        overflowX: 'hidden',
+                        whiteSpace: 'nowrap', 
+                        textOverflow: 'ellipsis',
+                        maxWidth: '95%'
+                      }} data-tip='' data-for={`user-email-${user._id}`}>{user.email}</span>
+                  </>)},
                   {name: "Código", cell: user=> user.code},
                   {name: "Créditos", cell: user=> <span>R${parseFloat(user.credits).toFixed(2)}</span>},
                   {name: "", cell: user=> <><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/>  <TrashIcon className="ml-5" onClick={()=> handleDeleteUser(user._id, user.email)}/></>}
@@ -705,13 +742,62 @@ export default function Admin({history}) {
                       width: '90%',
                       margin: '0 auto'
                     }
+                  },
+                  rows: {
+                    style: {
+                      minHeight: 'none',
+                      ":hover":{
+                        background: '#00000020'
+                      }
+                    }
+                  },
+                  cells: {
+                    style: {
+                      display: 'block',
+                      width: '100%',
+                      overflowX: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      maxWidth: '95%',
+                      margin: 'auto auto'
+                    }
                   }
                 }}
                 columns={[
-                  {name: "Usuário", cell: post=> post.destination?post.destination.email:'Usuário deletado'},
-                  {name: "Veículo", maxWidth: '200px', cell: post=> post.vehicle},
-                  {name: "Placa", maxWidth: '100px', cell: post=> post.brand},
-                  {name: "URL", cell: post=> <a href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a>},
+                  {name: "Usuário", grow: 2, cell: post=> post.destination?post.destination.email:'Usuário deletado'},
+                  {name: "Veículo", maxWidth: '200px', cell: post=>
+                    <>
+                      <span style={{
+                        overflowX: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '95%'
+                      }} data-tip='' data-for={`vehicle-${post._id}`}>{post.vehicle}</span>
+                      <Tooltip id={`vehicle-${post._id}`}>{post.vehicle}</Tooltip>
+                    </>
+                  },
+                  {name: "Placa", maxWidth: '100px', cell: post=>
+                    <>
+                      <span style={{
+                        overflowX: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '95%'
+                      }} data-tip='' data-for={`brand-${post._id}`}>{post.brand}</span>
+                      <Tooltip id={`brand-${post._id}`}>{post.brand}</Tooltip>
+                    </>
+                  },
+                  {name: "URL", cell: post=> (
+                    <>
+                      <a style={{
+                        overflowX: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '95%'
+                      }} data-tip='' data-for={`post-${post._id}`} href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a>
+                      <Tooltip id={`post-${post._id}`}>{post.url}</Tooltip>
+                    </>
+                  )},
                   {name: "", maxWidth: '40px', cell: post=> <><EditIcon onClick={()=> history.push(`/editpost/${post._id}`)}/> <TrashIcon onClick={()=>handleDelete(post._id, post.brand)}/></>}
                 ]} 
                 paginationPerPage={25}
@@ -749,10 +835,39 @@ export default function Admin({history}) {
                       width: '90%',
                       margin: '0 auto'
                     }
+                  },
+                  rows: {
+                    style: {
+                      minHeight: 'none',
+                      ":hover":{
+                        background: '#00000020'
+                      }
+                    }
+                  },
+                  cells: {
+                    style: {
+                      display: 'block',
+                      width: '100%',
+                      overflowX: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      maxWidth: '95%',
+                      margin: 'auto auto'
+                    }
                   }
                 }}
                 columns={[
-                  {name: "Cliente", cell: transaction=> transaction.destination?transaction.destination.email:'Usuário deletado'},
+                  {name: "Cliente", cell: transaction=> transaction.destination? (<>
+                  
+                    <Tooltip id={`transaction-destination-${transaction._id}`}>{transaction.destination.email}</Tooltip>
+                    <span style={{
+                        overflowX: 'hidden',
+                        whiteSpace: 'nowrap', 
+                        textOverflow: 'ellipsis',
+                        maxWidth: '95%'
+                      }} data-tip='' data-for={`transaction-destination-${transaction._id}`}>{transaction.destination.email}</span>
+                  
+                  </>):'Usuário deletado', wrap: false, grow: 6},
                   {name: "Valor", maxWidth: '200px', cell: transaction=> <span>R${parseFloat(transaction.value).toFixed(2)}</span>},
                   {name: "", maxWidth: '40px', cell: transaction=> {if(transaction.date) return <TrashIcon onClick={()=>handleDeleteCredit(transaction.destination.email, transaction.value, transaction.date)}/>}}
                 ]} 
