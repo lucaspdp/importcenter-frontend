@@ -3,36 +3,32 @@ import { FaBars, FaWindowClose } from 'react-icons/fa';
 
 export const Logo = styled.img`
 
-  width: 300px;
-  height: 90px;
+  width: 100%;
+  max-width: 400px;
+
+  justify-self: center;
 
   position: initial;
-
-  ${props => props.isMobile && (
-    `width: 60%;
-    object-fit: scale-down;`
-  )};
 
 `;
 export const DimLogo = styled.img`
 
-  width: 150px;
-  height: 38px;
+  width: 100%;
+  max-width: 200px;
 
   position: initial;
+  justify-self: right;
 
   margin-top: 2px;
-  ${props => props.isMobile && (
-    `width: 20%;
-    object-fit: scale-down;`
-  )};
 
 `;
 
 export const AlientechLogo = styled.img`
 
-  width: 150px;
-  height: 38px;
+
+  width: 100%;
+  max-width: 200px;
+  justify-self: left;
 
   position: initial;
   margin-left: 5px;
@@ -48,11 +44,6 @@ export const AlientechLogo = styled.img`
       drop-shadow(var(--stroke-pos) var(--stroke-neg) 0 var(--stroke-color))
       drop-shadow(var(--stroke-neg) var(--stroke-pos) 0 var(--stroke-color))
       drop-shadow(var(--stroke-neg) var(--stroke-neg) 0 var(--stroke-color));   
-
-  ${props => props.isMobile && (
-    `width: 20%;
-    object-fit: scale-down;`
-  )};
 
 `;
 
@@ -70,12 +61,23 @@ export const Container = styled.div`
   border-top: #c33f3f 2px solid;
 
   overflow-y: hidden;
+
+  
 `;
 export const Header = styled.div`
-  display: flex;
-  flex-direction: row;
   width: 100%;
+  max-width: 100%;
   height: 20vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  @media only screen and (max-width: 900px){
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+  @media only screen and (max-width: 600px){
+    grid-template-columns: 1fr 4fr 1fr;
+  }
   
   justify-content: center;
   align-items: flex-end;
@@ -195,6 +197,11 @@ export const PostsContainer = styled.div`
     overflow-y: auto;
     &::-webkit-scrollbar{
         width: 0;
+    }
+    
+    .date{
+      font-size: 10px!important;
+      color: #844!important ;
     }
 
     .title{
@@ -336,3 +343,56 @@ export const ExitButton = styled(FaWindowClose)`
   cursor: pointer;
 
 `
+
+export const Paginator = styled.div`
+  z-index: 1;
+  display: grid;
+
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
+  width: 150px;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas: 'btn1 spanText btn2';
+  padding-bottom: 20px;
+
+  button{
+    height: 30px;
+    width: 30px;
+    border: none;
+    cursor: pointer;
+
+    border: 0;
+
+    background: #c33f3f;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #fff;
+    transition-duration: 0.2s;
+    z-index: 1;
+
+    margin: 0 5px;
+
+    &:hover{
+      filter: brightness(1.2);
+    }
+  }
+
+  span{
+    grid-area: spanText;
+    text-align: center;
+    align-self: center;
+  }
+
+  button:first-child{
+    grid-area: btn1;  
+    justify-self: center;
+  }
+
+  span+button{
+    grid-area: btn2;
+    justify-self: center;
+  }
+
+`;

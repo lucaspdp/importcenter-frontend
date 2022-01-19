@@ -3,36 +3,32 @@ import { FaBars, FaWindowClose, FaTrash, FaPencilAlt } from 'react-icons/fa';
 
 export const Logo = styled.img`
 
-  width: 300px;
-  height: 90px;
+  width: 100%;
+  max-width: 400px;
+
+  justify-self: center;
 
   position: initial;
-
-  ${props => props.isMobile && (
-    `width: 60%;
-    object-fit: scale-down;`
-  )};
 
 `;
 export const DimLogo = styled.img`
 
-  width: 150px;
-  height: 38px;
+  width: 100%;
+  max-width: 200px;
 
   position: initial;
+  justify-self: right;
 
   margin-top: 2px;
-  ${props => props.isMobile && (
-    `width: 20%;
-    object-fit: scale-down;`
-  )};
 
 `;
 
 export const AlientechLogo = styled.img`
 
-  width: 150px;
-  height: 38px;
+
+  width: 100%;
+  max-width: 200px;
+  justify-self: left;
 
   position: initial;
   margin-left: 5px;
@@ -48,11 +44,6 @@ export const AlientechLogo = styled.img`
       drop-shadow(var(--stroke-pos) var(--stroke-neg) 0 var(--stroke-color))
       drop-shadow(var(--stroke-neg) var(--stroke-pos) 0 var(--stroke-color))
       drop-shadow(var(--stroke-neg) var(--stroke-neg) 0 var(--stroke-color));   
-
-  ${props => props.isMobile && (
-    `width: 20%;
-    object-fit: scale-down;`
-  )};
 
 `;
 
@@ -70,11 +61,21 @@ export const Container = styled.div`
 
   border-top: #c33f3f 2px solid;
 `;
+
 export const Header = styled.div`
-  display: flex;
-  flex-direction: row;
   width: 100%;
+  max-width: 100%;
   height: 20vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  @media only screen and (max-width: 900px){
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+  @media only screen and (max-width: 600px){
+    grid-template-columns: 1fr 4fr 1fr;
+  }
   
   justify-content: center;
   align-items: flex-end;
@@ -408,20 +409,17 @@ export const FilterContainer = styled.div`
   border-radius: 5px;
   background: #eee;
   margin-bottom: 10px;
-  width: 90%;
+  width: 100%;
   z-index: 5;
 
   display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(4, 1fr);
 
-  @media screen and (max-width: 1024px){
-    grid-template-columns: repeat(2, 1fr)!important;
-  }
-
+  
   div{
     display: flex;
-
+    align-items: center;
     label{
       font-size: 1.2rem;
     }
@@ -433,4 +431,34 @@ export const FilterContainer = styled.div`
       width: 100%;
     }
   }
-`
+  @media screen and (max-width: 1024px){
+    grid-template-columns: repeat(2, 1fr)!important;
+
+    div{
+      display: grid;
+      margin-right: 10px;
+      grid-template-columns: 1fr 3fr;
+      label{
+        text-align: right;
+      }
+    }
+  }
+
+  @media screen and (max-width: 730px){
+    div{
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+
+  @media screen and (max-width: 640px){
+    div{
+      grid-template-columns: 3fr 5fr;
+    }
+  }
+
+  @media screen and (max-width: 530px){
+    div{
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  `

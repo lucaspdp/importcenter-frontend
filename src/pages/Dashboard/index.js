@@ -11,7 +11,8 @@ import {Container,
         Menu, 
         Span,
         PostsContainer,
-        ExitButton
+        ExitButton,
+        Paginator
        } from './styles';
 
 import LogoImg from '../../assets/import-center.png'
@@ -19,6 +20,7 @@ import DimSportImg from '../../assets/Dimsport-logo.png'
 import DIcon from '../../assets/D-Icon.png'
 import Alientech from '../../assets/alientech.png'
 import api from '../../services/api';
+import dayjs from 'dayjs';
 
 export default function Dashboard({history}) {
 
@@ -27,47 +29,67 @@ export default function Dashboard({history}) {
   const [statements, setStatements] = useState([]);
   const [posts, setPosts] = useState([]);
 
-  useEffect(()=>{
-    const id = sessionStorage.getItem('user_id');
+  const [count, setCount] = useState(0)
+  const [page, setPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [maxPages, setMaxPages] = useState(0)
+  const [id, setId] = useState('')
+
+  
     
-    async function getStatements(){
-      const response = await api.get('/statement', {
-        headers:{
-          id
-        }
-      });
+  async function getStatements(){
+    const response = await api.get('/statement', {
+      headers:{
+        id
+      }
+    });
 
-      setStatements(response.data.slice(0, 50));
-    }
+    setStatements(response.data.slice(0, 50));
+  }
 
-    async function getCredits(){
-      const response = await api.get('/credits', {
-        headers: {
-          id
-        }
-      })
+  async function getCredits(){
+    const response = await api.get('/credits', {
+      headers: {
+        id
+      }
+    })
 
-      setCredits(response.data);
-    }
+    setCredits(response.data);
+  }
 
-    async function getPosts(){
-      const response = await api.get('/post/show', {
-        headers:{
-          id
-        }
-      })
+  async function getPosts(){
+    const response = await api.get('/post/show', {
+      headers:{
+        id,
+        page,
+        is_web: 1
+      }
+    })
+    const responseCount = await api.get('/post/count', {
+      headers:{
+        id
+      }
+    })
 
-      setPosts(response.data.reverse());
-    }
+    setItemsPerPage(responseCount.data.itemsPerPage)
+    setMaxPages(responseCount.data.maxPages);
+    setCount(responseCount.data.count)
+    setPosts(response.data);
+  }
+
+  useEffect(()=>{
+    setId(sessionStorage.getItem('user_id'));
     
     if(sessionStorage.getItem('user_id') === null){
       history.push('/');
     }
 
+    if(!id) return;
+
     getStatements();
     getCredits()
     getPosts();
-  }, [credits, history])
+  }, [credits, history, page, id])
 
   async function handleBuy(post_id){
     const id = sessionStorage.getItem('user_id');
@@ -139,12 +161,19 @@ export default function Dashboard({history}) {
                       <span className='placa'>{post.brand}</span>
                       <span className='price'>R${post.price}</span>
                     </div>
+                    <span className='date'>{dayjs(post.created_at).format("DD/MM/YYYY")}</span>
                   </div>
 
               </li>
             ))}
           </ul>
         </PostsContainer>
+
+        <Paginator>
+          {page > 1 && (<button onClick={()=> setPage(page - 1)} > {'<'} </button>) }
+          <span> Página {page} </span>
+          {page < maxPages && <button type="button" onClick={()=> setPage(page + 1)}> {'>'} </button> }
+        </Paginator>
       </Container>
     </>
   );

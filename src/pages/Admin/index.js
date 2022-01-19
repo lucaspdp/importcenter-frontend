@@ -1,11 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { isMobile } from 'react-device-detect';
 import CurrencyInput from 'react-currency-input';
-import { TableContainer, Table, TableBody, TableRow, TableCell, TableHead, TablePagination } from '@material-ui/core'
 
-import {ExportCSV} from '../../services/export';
-
-import Tooltip from 'react-tooltip'
 
 import {Container, 
   Logo,  
@@ -19,11 +15,8 @@ import {Container,
   FormContainer,
   ExitButton,
   RadioLabel,
-  TrashIcon,
-  EditIcon,
   ButtonPremade,
-  PremadeDiv,
-  FilterContainer,
+  PremadeDiv
  } from './styles';
 
 
@@ -33,6 +26,9 @@ import DimSportImg from '../../assets/Dimsport-logo.png'
 import Alientech from '../../assets/alientech.png'
 import api from '../../services/api';
 import DataTable from 'react-data-table-component';
+import UsersList from '../../components/UsersList';
+import CreditosList from '../../components/CreditosList';
+import PostsList from '../../components/PostsList';
 
 export default function Admin({history}) {
 
@@ -49,31 +45,10 @@ export default function Admin({history}) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
 
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
-
-  const [posts, setPosts] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
-
-  const [creditsHistory, setCreditsHistory] = useState([]);
-  const [filteredCreditsHistory, setFilteredCreditsHistory] = useState([]);
-
   const [user_name, setUserName] = useState('');
   const [user_code, setUserCode] = useState('');
   const [user_admin, setUserAdmin] = useState(false);
-  const [backups, setBackups] = useState(0);
 
-  const [emailSearch, setEmailSearch] = useState('');
-  const [codeSearchUsers, setCodeSearchUsers] = useState('')
-  const [placaSearch, setPlacaSearch] = useState('');
-  
-  const [emailSearchCredits, setEmailSearchCredits] = useState('');
-
-  const [emailSearchUsers, setEmailSearchUsers] = useState('');
-
-  const [creditsPage, setCreditsPage] = useState(0)
-  const [searchEmail, setSearchEmail] = useState('')
-  const [credistRowsPerPage, setCreditsRowsPerPage] = useState(25)
 
   useEffect(()=>{
     async function checkAdmin(){
@@ -92,108 +67,6 @@ export default function Admin({history}) {
 
     checkAdmin();
   }, [history]);
-
-  useEffect(()=>{
-    async function handleFiles(){
-      //console.log("Files");
-    }
-    async function handleCredits(){
-      //console.log("Credits");
-    }
-    async function handleUsers(){
-      const response = await api.get('/users', {
-        headers:{
-          id: sessionStorage.getItem('user_id')
-        }
-      });
-
-      let reversed = response.data.reverse()
-      setUsers(reversed);
-    }
-
-    async function handlePosts(){
-      const response = await api.get('/posts', {
-        headers:{
-          id: sessionStorage.getItem('user_id')
-        }
-      });
-
-      let reversed = response.data.reverse()
-      setPosts(reversed);
-    }
-    async function handleCreditsHistory(){
-      const response = await api.get('/creditshistory', {
-        headers:{
-          id: sessionStorage.getItem('user_id')
-        }
-      });
-
-      let reversed = response.data.reverse()
-      setCreditsHistory(reversed);
-    }
-
-    if(caminho === 'credits')
-      handleCredits();
-    if(caminho === 'admin')
-      handleFiles();
-    if(caminho === 'users')
-      handleUsers();
-    if(caminho === 'posts')
-      handlePosts();
-    if(caminho === 'creditshistory')
-      handleCreditsHistory();
-    setError('');
-  },[caminho, backups])
-
-  useEffect(()=>{
-    if(caminho === 'posts'){
-      let filterEmail = posts;
-      if(emailSearch) filterEmail = filterEmail.filter(post=>{
-        return post.destination?.email.includes(emailSearch)
-      })
-      let filterPlaca = filterEmail;
-      if(placaSearch) filterPlaca = filterPlaca.filter(post => {
-        return post.brand.toLowerCase().includes(placaSearch.toLowerCase())
-      })
-  
-      const filtered = filterPlaca
-  
-      setFilteredPosts(filtered)
-    }
-  }, [posts, emailSearch, placaSearch])
-
-  useEffect(()=>{
-    if(caminho === 'creditshistory'){
-      let filterEmail = creditsHistory;
-      if(emailSearchCredits) filterEmail = filterEmail.filter(transaction=>{
-        return transaction.destination?.email.includes(emailSearchCredits)
-      })
-
-      const filterCode = filterEmail.filter(user=> {
-        return user.destination?.code.toLowerCase().includes(codeSearchUsers.toLowerCase())
-      })
-  
-      const filtered = filterCode
-  
-      setFilteredCreditsHistory(filtered)
-    }
-  }, [creditsHistory, emailSearchCredits, codeSearchUsers])
-  
-  useEffect(()=>{
-    if(caminho === 'users'){
-      let filterEmail = users;
-      if(emailSearchUsers) filterEmail = filterEmail.filter(user=>{
-        return user.email.toLowerCase().includes(emailSearchUsers.toLowerCase())
-      })
-      const filterCode = filterEmail.filter(user=> {
-        return user.code.toLowerCase().includes(codeSearchUsers.toLowerCase())
-      })
-  
-      const filtered = filterCode
-  
-      setFilteredUsers(filtered)
-    }
-  }, [users, emailSearchUsers, codeSearchUsers])
 
   function handleRadioChange(e){
     e.persist();
@@ -314,100 +187,6 @@ export default function Admin({history}) {
       }
       else{
         alert('Erro, tente novamente!')
-      }
-    }
-  }
-
-  async function handleDelete(post_id, placa){
-    // eslint-disable-next-line no-restricted-globals
-    let res = confirm(`Você deseja deletar o post da placa ${placa}?`);
-    if(res){
-      const id = sessionStorage.getItem('user_id');
-      const response = await api.delete('/post/delete', {
-        headers:{
-          id,
-          post_id
-        }
-      }).catch(err=>{
-        const errorMsg = err.response.data.error;
-        return setError(errorMsg);
-      });
-
-      if(response){
-        alert("Post deletado!");
-        const res = await api.get('/posts', {
-          headers:{
-            id: sessionStorage.getItem('user_id')
-          }
-        });
-
-        setPosts(res.data);
-      }
-    }
-  }
-
-  async function handleDeleteUser(id, email){
-    if(id){
-      // eslint-disable-next-line no-restricted-globals
-      let res = confirm(`Você deseja deletar o usuário ${email} ?`);
-      if(res){
-        const response = await api.delete(`/user/${id}`,{
-          headers:{
-            id: sessionStorage.getItem('user_id')
-          }
-        }).catch(err=>{
-          const errorMsg = err.response.data.error;
-          return setError(errorMsg);
-        });
-    
-        if(response){
-          alert("Usuário deletado deletado!");
-          const res = await api.get('/users', {
-            headers:{
-              id: sessionStorage.getItem('user_id')
-            }
-          });
-    
-          setUsers(res.data);
-      }
-    }
-  }
-  }
-
-  async function handleDeleteCredit(destino, valor, date){
-    // eslint-disable-next-line no-restricted-globals
-    let res = confirm(`Você deseja remover R$${parseFloat(valor).toFixed(2)} de ${destino}?\n[SIM] Para sim   [CANCELAR] Para não`);
-  
-    if(res){
-      // eslint-disable-next-line no-restricted-globals
-      let res2 = confirm(`Confirmar ação?\nRemover R$${parseFloat(valor).toFixed(2)} de ${destino}?`);
-    
-      if(res2){
-
-        //router.delete('/creditshistory/:date', AdminCredits.delete);
-        const response = await api.delete(`/creditshistory/${date}`,{
-          data:{  
-            credit: true
-          },
-          headers:{
-            id: sessionStorage.getItem('user_id')
-          }
-        }).catch(err=>{
-          const errorMsg = err.response.data.error;
-          return setError(errorMsg);
-        });
-    
-        if(response){
-          alert("Créditos removidos com sucesso!");
-    
-          const res = await api.get('/creditshistory', {
-            headers:{
-              id: sessionStorage.getItem('user_id')
-            }
-          });
-    
-          setCreditsHistory(res.data);
-        }
       }
     }
   }
@@ -572,6 +351,7 @@ export default function Admin({history}) {
                 <PremadeDiv>
                   <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Boleto")}>Boleto</ButtonPremade>
                   <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Depósito")}>Depósito</ButtonPremade>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Depósito Pix")}>Pix</ButtonPremade>
                   <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Cartão")}>Cartão</ButtonPremade>
                 </PremadeDiv>
                 <button type="submit" onClick={handleCredits}>Enviar</button>
@@ -582,81 +362,7 @@ export default function Admin({history}) {
         )}
         {caminho ==='users' && (
           <>
-            <FormContainer>
-              <h2>Usuários Cadastrados:</h2>
-              <ExportCSV csvData={users} fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
-              <FilterContainer>
-                <div id="emailsearch">
-                  <label for="email">Email</label>
-                  <input id="email" type='text' value={emailSearchUsers} onChange={e=> setEmailSearchUsers(e.target.value)} />
-                </div>
-                <div id="codeSearch">
-                  <label for="email">Código</label>
-                  <input id="email" type='text' value={codeSearchUsers} onChange={e=> setCodeSearchUsers(e.target.value)} />
-                </div>
-              </FilterContainer>
-              <DataTable
-                customStyles={{
-                  headRow:{
-                    style:{
-                      backgroundColor: '#eee'
-                    }
-                  },
-                  table:{
-                    style:{
-                      width: '90%',
-                      margin: '0 auto'
-                    }
-                  },
-                  rows: {
-                    style: {
-                      minHeight: 'none',
-                      ":hover":{
-                        background: '#00000020'
-                      }
-                    }
-                  },
-                  cells: {
-                    style: {
-                      display: 'block',
-                      width: '100%',
-                      overflowX: 'hidden',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                      maxWidth: '95%',
-                      margin: 'auto auto'
-                    }
-                  }
-                }}
-                columns={[
-                  {name: "Nome", cell: user=> (<>
-                    <Tooltip id={`user-${user._id}`}>{user.name}</Tooltip>
-                    <span style={{
-                        overflowX: 'hidden',
-                        whiteSpace: 'nowrap', 
-                        textOverflow: 'ellipsis',
-                        maxWidth: '95%'
-                      }} data-tip='' data-for={`user-${user._id}`}>{user.name}</span>
-                  </>)},
-                  {name: "Email", cell: user=> (<>
-                    <Tooltip id={`user-email-${user._id}`}>{user.email}</Tooltip>
-                    <span style={{
-                        overflowX: 'hidden',
-                        whiteSpace: 'nowrap', 
-                        textOverflow: 'ellipsis',
-                        maxWidth: '95%'
-                      }} data-tip='' data-for={`user-email-${user._id}`}>{user.email}</span>
-                  </>)},
-                  {name: "Código", cell: user=> user.code},
-                  {name: "Créditos", cell: user=> <span>R${parseFloat(user.credits).toFixed(2)}</span>},
-                  {name: "", cell: user=> <><EditIcon onClick={()=> history.push(`/edituser/${user._id}`)}/>  <TrashIcon className="ml-5" onClick={()=> handleDeleteUser(user._id, user.email)}/></>}
-                ]} 
-                paginationPerPage={25}
-                pagination
-                data={filteredUsers}
-                fixedHeader
-                />
-            </FormContainer>
+            <UsersList />
           </>
         )}
         {caminho ==='register' && (
@@ -717,167 +423,12 @@ export default function Admin({history}) {
         )}
         {caminho ==='posts' && (
           <>
-            <FormContainer>
-              <h2>Arquivos:</h2>
-              <ExportCSV csvData={posts} fileName={`Backup_Arquivos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
-              <FilterContainer>
-                <div id="emailsearch">
-                  <label for="email">Email</label>
-                  <input id="email" type='text' value={emailSearch} onChange={e=> setEmailSearch(e.target.value)} />
-                </div>
-                <div id="brandsearch">
-                  <label for="brand">Placa</label>
-                  <input id="brand" type='text' value={placaSearch} onChange={e=> setPlacaSearch(e.target.value)}/>
-                </div>
-              </FilterContainer>
-              <DataTable
-                customStyles={{
-                  headRow:{
-                    style:{
-                      backgroundColor: '#eee'
-                    }
-                  },
-                  table:{
-                    style:{
-                      width: '90%',
-                      margin: '0 auto'
-                    }
-                  },
-                  rows: {
-                    style: {
-                      minHeight: 'none',
-                      ":hover":{
-                        background: '#00000020'
-                      }
-                    }
-                  },
-                  cells: {
-                    style: {
-                      display: 'block',
-                      width: '100%',
-                      overflowX: 'hidden',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                      maxWidth: '95%',
-                      margin: 'auto auto'
-                    }
-                  }
-                }}
-                columns={[
-                  {name: "Usuário", grow: 2, cell: post=> post.destination?post.destination.email:'Usuário deletado'},
-                  {name: "Veículo", maxWidth: '200px', cell: post=>
-                    <>
-                      <span style={{
-                        overflowX: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        maxWidth: '95%'
-                      }} data-tip='' data-for={`vehicle-${post._id}`}>{post.vehicle}</span>
-                      <Tooltip id={`vehicle-${post._id}`}>{post.vehicle}</Tooltip>
-                    </>
-                  },
-                  {name: "Placa", maxWidth: '100px', cell: post=>
-                    <>
-                      <span style={{
-                        overflowX: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        maxWidth: '95%'
-                      }} data-tip='' data-for={`brand-${post._id}`}>{post.brand}</span>
-                      <Tooltip id={`brand-${post._id}`}>{post.brand}</Tooltip>
-                    </>
-                  },
-                  {name: "URL", cell: post=> (
-                    <>
-                      <a style={{
-                        overflowX: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        maxWidth: '95%'
-                      }} data-tip='' data-for={`post-${post._id}`} href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a>
-                      <Tooltip id={`post-${post._id}`}>{post.url}</Tooltip>
-                    </>
-                  )},
-                  {name: "", maxWidth: '40px', cell: post=> <><EditIcon onClick={()=> history.push(`/editpost/${post._id}`)}/> <TrashIcon onClick={()=>handleDelete(post._id, post.brand)}/></>}
-                ]} 
-                paginationPerPage={25}
-                pagination
-                data={filteredPosts}
-                fixedHeader
-                />
-            </FormContainer>
+            <PostsList />
           </>
         )}
         {caminho ==='creditshistory' && (
           <>
-            <FormContainer>
-              <h2>Creditos:</h2>
-              <ExportCSV csvData={filteredCreditsHistory} fileName={`Backup_Creditos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} setBackups={setBackups}/>
-              <FilterContainer>
-                <div id="emailsearch">
-                  <label for="email">Email</label>
-                  <input id="email" type='text' value={emailSearchCredits} onChange={e=> setEmailSearchCredits(e.target.value)} />
-                </div>
-                <div id="codeSearch">
-                  <label for="email">Código</label>
-                  <input id="email" type='text' value={codeSearchUsers} onChange={e=> setCodeSearchUsers(e.target.value)} />
-                </div>
-              </FilterContainer>
-              <DataTable
-                customStyles={{
-                  headRow:{
-                    style:{
-                      backgroundColor: '#eee'
-                    }
-                  },
-                  table:{
-                    style:{
-                      width: '90%',
-                      margin: '0 auto'
-                    }
-                  },
-                  rows: {
-                    style: {
-                      minHeight: 'none',
-                      ":hover":{
-                        background: '#00000020'
-                      }
-                    }
-                  },
-                  cells: {
-                    style: {
-                      display: 'block',
-                      width: '100%',
-                      overflowX: 'hidden',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                      maxWidth: '95%',
-                      margin: 'auto auto'
-                    }
-                  }
-                }}
-                columns={[
-                  {name: "Cliente", cell: transaction=> transaction.destination? (<>
-                  
-                    <Tooltip id={`transaction-destination-${transaction._id}`}>{transaction.destination.email}</Tooltip>
-                    <span style={{
-                        overflowX: 'hidden',
-                        whiteSpace: 'nowrap', 
-                        textOverflow: 'ellipsis',
-                        maxWidth: '95%'
-                      }} data-tip='' data-for={`transaction-destination-${transaction._id}`}>{transaction.destination.email}</span>
-                  
-                  </>):'Usuário deletado', wrap: false, grow: 6},
-                  {name: "Valor", maxWidth: '200px', cell: transaction=> <span>R${parseFloat(transaction.value).toFixed(2)}</span>},
-                  {name: "", maxWidth: '40px', cell: transaction=> {if(transaction.date) return <TrashIcon onClick={()=>handleDeleteCredit(transaction.destination.email, transaction.value, transaction.date)}/>}}
-                ]} 
-                paginationPerPage={25}
-                pagination
-                fixedHeader
-                dense={true}
-                data={filteredCreditsHistory}
-                />
-            </FormContainer>
+            <CreditosList />
           </>
         )}
       </Container>
