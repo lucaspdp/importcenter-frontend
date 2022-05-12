@@ -7,6 +7,7 @@ import { ExportCSV } from '../../services/export';
 import CustomTable from '../CustomTable';
 import { Button } from '@material-ui/core';
 import { Filter } from './styles';
+import dayjs from 'dayjs';
 
 const CreditosList = () => {
 
@@ -31,12 +32,13 @@ const CreditosList = () => {
           overflowX: 'hidden',
           whiteSpace: 'nowrap',
           textOverflow: 'ellipsis',
-          maxWidth: '95%'
+          maxWidth: '95%',
         }} data-tip='' data-for={`transaction-destination-${transaction._id}`}>{transaction.destination.email}</span>
 
       </>) : 'Usuário deletado', wrap: false, grow: 6
     },
-    { name: "Valor", maxWidth: '200px', cell: transaction => <span>R${parseFloat(transaction.value).toFixed(2)}</span> },
+    { name: "Valor", maxWidth: '100px', cell: transaction => <span>R${parseFloat(transaction.value).toFixed(2)}</span> },
+    { name: "Data", maxWidth: '50px', cell: transaction => <span>{dayjs(transaction.createdAt).format("DD/MM/YYYY")}</span> },
     { name: "", maxWidth: '40px', cell: transaction => { if (transaction.date) return <TrashIcon onClick={() => handleDeleteCredit(transaction.destination.email, transaction.value, transaction.date)} /> } }
   ]
 

@@ -161,7 +161,7 @@ export default function Dashboard({history}) {
                       <span className='placa'>{post.brand}</span>
                       <span className='price'>R${post.price}</span>
                     </div>
-                    <span className='date'>{dayjs(post.created_at).format("DD/MM/YYYY")}</span>
+                    <span className='date'>{dayjs(post.createdAt).format("DD/MM/YYYY")}</span>
                   </div>
 
               </li>
