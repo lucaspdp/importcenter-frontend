@@ -115,7 +115,8 @@ const UsersList = () => {
     return (
         <FormContainer>
             <h2>Usuários Cadastrados:</h2>
-            <ExportCSV csvData={users} fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} />
+            <ExportCSV fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="users" />
+            <ExportCSV fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="all" />
 
             <Filter onSubmit={e => {
                 e.preventDefault()

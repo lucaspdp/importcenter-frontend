@@ -25,7 +25,7 @@ const CreditosList = () => {
 
   const columns = [
     {
-      name: "Cliente", cell: transaction => transaction.destination ? (<>
+      name: "Usuário", cell: transaction => transaction.destination ? (<>
 
         <Tooltip id={`transaction-destination-${transaction._id}`}>{transaction.destination.email}</Tooltip>
         <span style={{
@@ -38,6 +38,7 @@ const CreditosList = () => {
       </>) : 'Usuário deletado', wrap: false, grow: 6
     },
     { name: "Valor", maxWidth: '100px', cell: transaction => <span>R${parseFloat(transaction.value).toFixed(2)}</span> },
+    { name: "Código", maxWidth: '50px', cell: transaction => <span>{transaction.destination.code}</span> },
     { name: "Data", maxWidth: '50px', cell: transaction => <span>{dayjs(transaction.createdAt).format("DD/MM/YYYY")}</span> },
     { name: "", maxWidth: '40px', cell: transaction => { if (transaction.date) return <TrashIcon onClick={() => handleDeleteCredit(transaction.destination.email, transaction.value, transaction.date)} /> } }
   ]
@@ -110,9 +111,9 @@ const CreditosList = () => {
 
   return (
     <FormContainer>
-
       <h2>Creditos:</h2>
-      <ExportCSV csvData={filteredCreditsHistory} fileName={`Backup_Creditos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} />
+      <ExportCSV fileName={`Backup_Creditos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="credits"/>
+      <ExportCSV fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="all" />
 
       <Filter onSubmit={e => {
         e.preventDefault()

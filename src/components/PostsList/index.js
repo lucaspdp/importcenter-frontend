@@ -46,8 +46,8 @@ const PostsList = () => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         maxWidth: '95%'
-                    }} data-tip='' data-for={`brand-${post._id}`}>{post.brand}</span>
-                    <Tooltip id={`brand-${post._id}`}>{post.brand}</Tooltip>
+                    }} data-tip data-for={`brand-${post._id}`}>{post.brand}</span>
+                    <Tooltip class="noselect" id={`brand-${post._id}`}>{post.brand}</Tooltip>
                 </>
         },
         {
@@ -58,7 +58,7 @@ const PostsList = () => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         maxWidth: '95%'
-                    }} data-tip='' data-for={`post-${post._id}`} href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a>
+                    }} data-tip data-for={`post-${post._id}`} href={post.url} rel="noopener noreferrer" target='_blank'>{post.url}</a>
                     <Tooltip id={`post-${post._id}`}>{post.url}</Tooltip>
                 </>
             )
@@ -138,7 +138,8 @@ const PostsList = () => {
     return (
         <FormContainer>
             <h2>Arquivos:</h2>
-            <ExportCSV csvData={posts} fileName={`Backup_Arquivos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} />
+            <ExportCSV fileName={`Backup_Arquivos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="files" />
+            <ExportCSV fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="all" />
 
             <Filter onSubmit={e => {
                 e.preventDefault()

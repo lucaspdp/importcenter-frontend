@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { isMobile } from 'react-device-detect';
 import CurrencyInput from 'react-currency-input';
 
+import { FiSearch } from 'react-icons/fi'
+
 
 import {Container, 
   Logo,  
@@ -29,6 +31,8 @@ import DataTable from 'react-data-table-component';
 import UsersList from '../../components/UsersList';
 import CreditosList from '../../components/CreditosList';
 import PostsList from '../../components/PostsList';
+import ReactTooltip from 'react-tooltip';
+import dayjs from 'dayjs';
 
 export default function Admin({history}) {
 
@@ -44,6 +48,7 @@ export default function Admin({history}) {
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [code, setCode] = useState('');
 
   const [user_name, setUserName] = useState('');
   const [user_code, setUserCode] = useState('');
@@ -196,6 +201,21 @@ export default function Admin({history}) {
     setTType(text);
   }
 
+  function searchClient(){
+    setEmail('')
+    api.post(`/usercode`, {
+      code: code
+    }).then(response=>{
+      if(response){
+        if(response.data){
+          setEmail(response.data.email)
+        }
+      }
+    }).catch(err=>{
+      alert("Usuário não encontrado")
+    })
+  }
+
   return (
     <>
       <ExitButton onClick={()=>{
@@ -245,7 +265,7 @@ export default function Admin({history}) {
                   }}
                   caminho={caminho.toString()}
                   val='register'
-                  >Cadastrar Cliente</MenuSelect>
+                  >Cadastrar Usuário</MenuSelect>
                 </li>
                 <li key='creditshistory'>
                   <MenuSelect onClick={(e)=>{
@@ -315,7 +335,7 @@ export default function Admin({history}) {
                   onChange={(e)=>setEmail(e.target.value)}
                 />
 
-                <button type="submit" onClick={handlePost}>Enviar</button>
+                <button type="submit" style={{marginTop: 10}} class="submitForm" onClick={handlePost}>Enviar</button>
               </form>
               <span className="errorSpan">{error}</span>
             </FormContainer>
@@ -325,6 +345,22 @@ export default function Admin({history}) {
           <>
             <FormContainer>
               <form>
+
+                <div className='row'>
+                  <div className='row_input input_button'>
+                    <label for="code">Código do usuário: </label>
+                    <input 
+                      type="text" 
+                      id="code" 
+                      name="Codigo" 
+                      value={code}
+                      onChange={(e)=>setCode(e.target.value)}
+                    />
+                  </div>
+                  <button data-tip data-for="search-user-btn" type='button' onClick={()=> searchClient()} className='icon_button'><FiSearch /></button>
+                  <ReactTooltip id="search-user-btn">Procurar usuário</ReactTooltip>
+                </div>
+
                 <label for='credits'>Valor de créditos:</label>
                 <CurrencyInput value={credits} onChange={(e, masked, floatVal)=>{
                   setCredits(masked)
@@ -349,12 +385,12 @@ export default function Admin({history}) {
                 />
 
                 <PremadeDiv>
-                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Boleto")}>Boleto</ButtonPremade>
-                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Depósito")}>Depósito</ButtonPremade>
-                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Depósito Pix")}>Pix</ButtonPremade>
-                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Cartão")}>Cartão</ButtonPremade>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Boleto " + dayjs().format("DD/MM/YYYY"))}>Boleto</ButtonPremade>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Estorno de Créditos " + dayjs().format("DD/MM/YYYY"))}>Estorno</ButtonPremade>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Depósito Pix " + dayjs().format("DD/MM/YYYY"))}>Pix</ButtonPremade>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Cartão " + dayjs().format("DD/MM/YYYY"))}>Cartão</ButtonPremade>
                 </PremadeDiv>
-                <button type="submit" onClick={handleCredits}>Enviar</button>
+                <button type="submit" class="submitForm" onClick={handleCredits}>Enviar</button>
               </form>
               <span className="errorSpan">{error}</span>
             </FormContainer>
@@ -369,7 +405,7 @@ export default function Admin({history}) {
           <>
             <FormContainer>
               <form onSubmit={(e)=>handleRegister(e)}>
-                <label>Nome do Usuário:</label>
+                <label>Nome do usuário:</label>
                 <input 
                   type="text" 
                   id="name" 
@@ -415,7 +451,7 @@ export default function Admin({history}) {
                     </RadioLabel>
                   </div>
                 </div>
-                <button type="submit" onClick={handleRegister}>Cadastrar</button>
+                <button type="submit" style={{marginTop: 10}} class="submitForm" onClick={handleRegister}>Cadastrar</button>
               </form>
               <span className="errorSpan">{error}</span>
             </FormContainer>

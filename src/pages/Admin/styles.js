@@ -205,6 +205,39 @@ export const FormContainer = styled.div`
     margin-top: 20px;
   }
 
+  .row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .input_button{
+    input{
+      width: 310px;
+    }
+  }
+
+  .icon_button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px;
+    border-radius: 50%;
+
+    height: 35px;
+    width: 35px;
+
+    margin-top: 35px;
+    margin-left: 5px;
+  }
+
+  .row_input{
+    display: flex;
+    flex-direction: column;
+
+  }
+
   .radio{
     display: flex;
     flex-direction: row;
@@ -255,19 +288,18 @@ export const FormContainer = styled.div`
   form{
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 10px;
     label{
       font-size: 1.5rem;
       color: #7e7e7e;
 
-      &:not(:first-child){
-        margin-top: 10px;
-      }
+      margin-top: 10px;
     }
     input{
       border: 1px solid #c33f3f;
       border-radius: 4px;
       height: 30px;
+      width: 350px;
       padding: 10px;
       transition-duration: 0.2s;
       color: #555;
@@ -285,11 +317,16 @@ export const FormContainer = styled.div`
       background: #c33f3f;
       border-radius: 20px;
       margin-top: 10px;
+      width: 200px;
       height: 30px;
       font-size: 1.5rem;
       color: #fff;
       transition-duration: 0.2s;
       z-index: 1;
+
+      &.submitForm{
+        margin: 0 auto;
+      }
 
       &:hover{
         background: #f33;
