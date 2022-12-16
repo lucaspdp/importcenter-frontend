@@ -8,11 +8,13 @@ import {Container,
         AlientechLogo, 
         Header, 
         FormContainer,
-        ExitButton
+        ExitButton,
+        MagicLogo
        } from '../Admin/styles';
 
 import LogoImg from '../../assets/import-center.png'
 import DimSportImg from '../../assets/Dimsport-logo.png'
+import MagicImg from '../../assets/magic.png'
 import Alientech from '../../assets/alientech.png'
 import api from '../../services/api';
 
@@ -81,11 +83,14 @@ export default function EditPost({history, match}) {
       <ExitButton onClick={()=>{
         history.push('/admin')
       }} />
-        <Header>
-          <DimLogo src={DimSportImg} alt="DimSport logo" isMobile={isMobile}/>
+      <Header>
+        <AlientechLogo src={Alientech} alt="Alientech logo" isMobile={isMobile}/>
+        <div style={{display: 'flex', flexDirection:"column", justifyContent: 'center', alignItems: "center"}}>
           <Logo src={LogoImg} alt="Import Center logo" isMobile={isMobile}/>
-          <AlientechLogo src={Alientech} alt="Alientech logo" isMobile={isMobile}/>
-        </Header>
+          <DimLogo src={DimSportImg} alt="DimSport logo" isMobile={isMobile}/>
+        </div>
+        <MagicLogo src={MagicImg} alt="Magic logo" isMobile={isMobile}/>
+      </Header>
       <Container>
         <FormContainer>
         <form>
@@ -132,9 +137,9 @@ export default function EditPost({history, match}) {
                   onChange={(e)=>setEmail(e.target.value)}
                 />
 
-                <button type="submit" onClick={handleUpdate}>Enviar</button>
+                <button style={{marginTop: 30}} type="submit" class="submitForm"  onClick={handleUpdate}>Enviar</button>
               </form>
-              <span className="errorSpan">{error}</span>
+              <span style={{marginTop: 10}} className="errorSpan">{error}</span>
             </FormContainer>
       </Container>
     </>

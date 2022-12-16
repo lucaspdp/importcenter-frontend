@@ -25,7 +25,7 @@ const CreditosList = () => {
 
   const columns = [
     {
-      name: "Usuário", cell: transaction => transaction.destination ? (<>
+      name: "Cliente", cell: transaction => transaction.destination ? (<>
 
         <Tooltip id={`transaction-destination-${transaction._id}`}>{transaction.destination.email}</Tooltip>
         <span style={{
@@ -35,7 +35,7 @@ const CreditosList = () => {
           maxWidth: '95%',
         }} data-tip='' data-for={`transaction-destination-${transaction._id}`}>{transaction.destination.email}</span>
 
-      </>) : 'Usuário deletado', wrap: false, grow: 6
+      </>) : 'Cliente deletado', wrap: false, grow: 6
     },
     { name: "Valor", maxWidth: '100px', cell: transaction => <span>R${parseFloat(transaction.value).toFixed(2)}</span> },
     { name: "Código", maxWidth: '50px', cell: transaction => <span>{transaction.destination.code}</span> },

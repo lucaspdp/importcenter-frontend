@@ -2,10 +2,11 @@ import React, {useState, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 
-import { Container, Logo, DimLogo, Form, AlientechLogo, LoadingDiv } from './styles';
+import { Container, Logo, DimLogo, Form, AlientechLogo, LoadingDiv, MagicLogo } from './styles';
 import LogoImg from '../../assets/import-center.png'
 import DimSportImg from '../../assets/Dimsport-logo.png'
 import Alientech from '../../assets/alientech.png'
+import Magic from '../../assets/magic.png'
 import LoadingImg from '../../assets/loading.png'
 import api from '../../services/api'
 
@@ -69,6 +70,7 @@ export default function Login() {
         <Logo src={LogoImg} alt="Import Center logo" isMobile={isMobile}/>
         <DimLogo src={DimSportImg} alt="DimSport logo" isMobile={isMobile}/>
         <AlientechLogo src={Alientech} alt="Alientech logo" isMobile={isMobile}/>
+        <MagicLogo src={Magic} alt="Midland logo" isMobile={isMobile}/>
 
         <Form onSubmit={handleSubmit} isMobile={isMobile}>
           <input type='text' placeholder='Código de acesso' value={key} onChange={(e)=>setKey(e.target.value)}/>

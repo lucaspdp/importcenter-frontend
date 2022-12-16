@@ -77,6 +77,34 @@ export const AlientechLogo = styled.img`
 
 `;
 
+export const MagicLogo = styled.img`
+
+  width: 223px;
+  height: 50px;
+
+  position: initial;
+
+  margin-top: 20px;
+  
+  --stroke-pos: .1px;
+    --stroke-neg: -.1px;
+    --stroke-color: rgba(0, 0, 0, 0.23);
+    filter: drop-shadow(var(--stroke-pos) 0 0 var(--stroke-color)) 
+      drop-shadow(var(--stroke-neg) 0 var(--stroke-color))
+      drop-shadow(0 var(--stroke-pos) 0 var(--stroke-color))
+      drop-shadow(0 var(--stroke-neg) 0 var(--stroke-color))
+      drop-shadow(var(--stroke-pos) var(--stroke-pos) 0 var(--stroke-color)) 
+      drop-shadow(var(--stroke-pos) var(--stroke-neg) 0 var(--stroke-color))
+      drop-shadow(var(--stroke-neg) var(--stroke-pos) 0 var(--stroke-color))
+      drop-shadow(var(--stroke-neg) var(--stroke-neg) 0 var(--stroke-color));   
+
+  ${props => props.isMobile && (
+    `width: 40%;
+    height: 6%;`
+  )};
+
+`;
+
 export const Form = styled.form`
 
   display: flex;

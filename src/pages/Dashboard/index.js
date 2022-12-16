@@ -5,6 +5,7 @@ import {Container,
         Logo,  
         DimLogo, 
         AlientechLogo, 
+        MagicLogo, 
         Header, 
         Nav, 
         Bars, 
@@ -18,6 +19,7 @@ import {Container,
 import LogoImg from '../../assets/import-center.png'
 import DimSportImg from '../../assets/Dimsport-logo.png'
 import DIcon from '../../assets/D-Icon.png'
+import MagicImg from '../../assets/magic.png'
 import Alientech from '../../assets/alientech.png'
 import api from '../../services/api';
 import dayjs from 'dayjs';
@@ -114,9 +116,12 @@ export default function Dashboard({history}) {
         history.push('/')
       }} />
       <Header>
-        <DimLogo src={DimSportImg} alt="DimSport logo" isMobile={isMobile}/>
-        <Logo src={LogoImg} alt="Import Center logo" isMobile={isMobile}/>
         <AlientechLogo src={Alientech} alt="Alientech logo" isMobile={isMobile}/>
+        <div style={{display: 'flex', flexDirection:"column", justifyContent: 'center', alignItems: "center"}}>
+          <Logo src={LogoImg} alt="Import Center logo" isMobile={isMobile}/>
+          <DimLogo src={DimSportImg} alt="DimSport logo" isMobile={isMobile}/>
+        </div>
+        <MagicLogo src={MagicImg} alt="Magic logo" isMobile={isMobile}/>
       </Header>
       <Container>
         <Nav >
@@ -141,7 +146,7 @@ export default function Dashboard({history}) {
         </Nav>
 
         <PostsContainer>
-          <span className='title'>Remaps</span>
+          <span className='title'>Softwares</span>
           <span className='saldo' style={{color: credits<0&&'#f00'}}>Saldo: R${parseFloat(credits).toFixed(2)}</span>
           <ul>
             {posts.map(post=>(

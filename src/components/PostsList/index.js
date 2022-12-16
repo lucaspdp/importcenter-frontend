@@ -25,7 +25,7 @@ const PostsList = () => {
     const [queryParams, setQueryParams] = useState('')
 
     const columns = [
-        { name: "Usuário", grow: 1, cell: post => post.destination ? post.destination.email : 'Usuário deletado' },
+        { name: "Cliente", grow: 1, cell: post => post.destination ? post.destination.email : 'Cliente deletado' },
         {
             name: "Veículo", grow: 3, maxWidth: '400px', cell: post =>
                 <>
@@ -141,7 +141,7 @@ const PostsList = () => {
             <ExportCSV fileName={`Backup_Arquivos-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="files" />
             <ExportCSV fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="all" />
 
-            <Filter onSubmit={e => {
+            <Filter className="formFilter" onSubmit={e => {
                 e.preventDefault()
                 fetchPosts()
             }}>

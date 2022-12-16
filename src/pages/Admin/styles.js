@@ -5,6 +5,7 @@ export const Logo = styled.img`
 
   width: 100%;
   max-width: 400px;
+  margin-bottom: 10px;
 
   justify-self: center;
 
@@ -28,15 +29,39 @@ export const AlientechLogo = styled.img`
 
   width: 100%;
   max-width: 200px;
-  justify-self: left;
+  justify-self: right;
 
   position: initial;
-  margin-left: 5px;
+  margin-right: 5px;
   
   --stroke-pos: .1px;
     --stroke-neg: -.1px;
     --stroke-color: rgba(0, 0, 0, 0.23);
     filter: drop-shadow(var(--stroke-pos) 0 0 var(--stroke-color)) 
+      drop-shadow(var(--stroke-neg) 0 var(--stroke-color))
+      drop-shadow(0 var(--stroke-pos) 0 var(--stroke-color))
+      drop-shadow(0 var(--stroke-neg) 0 var(--stroke-color))
+      drop-shadow(var(--stroke-pos) var(--stroke-pos) 0 var(--stroke-color)) 
+      drop-shadow(var(--stroke-pos) var(--stroke-neg) 0 var(--stroke-color))
+      drop-shadow(var(--stroke-neg) var(--stroke-pos) 0 var(--stroke-color))
+      drop-shadow(var(--stroke-neg) var(--stroke-neg) 0 var(--stroke-color));   
+
+`;
+
+export const MagicLogo = styled.img`
+
+
+  width: 100%;
+  max-width: 200px;
+  justify-self: left;
+
+  position: initial;
+  margin-left: 5px;
+  
+  --stroke-pos: 0px;
+    --stroke-neg: 0px;
+    --stroke-color: #ffffff20;
+    filter: drop-shadow(var(--stroke-pos) 0px 5px var(--stroke-color)) 
       drop-shadow(var(--stroke-neg) 0 var(--stroke-color))
       drop-shadow(0 var(--stroke-pos) 0 var(--stroke-color))
       drop-shadow(0 var(--stroke-neg) 0 var(--stroke-color))
@@ -66,6 +91,7 @@ export const Header = styled.div`
   width: 100%;
   max-width: 100%;
   height: 20vh;
+  margin-top: 10px;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -74,7 +100,7 @@ export const Header = styled.div`
     grid-template-columns: 1fr 2fr 1fr;
   }
   @media only screen and (max-width: 600px){
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr;
   }
   
   justify-content: center;
@@ -289,6 +315,12 @@ export const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+
+    
+    @media screen and (max-width: 530px){
+        margin-top: 40px;
+    }
+
     label{
       font-size: 1.5rem;
       color: #7e7e7e;
@@ -317,7 +349,7 @@ export const FormContainer = styled.div`
       background: #c33f3f;
       border-radius: 20px;
       margin-top: 10px;
-      width: 200px;
+      width: 150px;
       height: 30px;
       font-size: 1.5rem;
       color: #fff;
@@ -326,6 +358,7 @@ export const FormContainer = styled.div`
 
       &.submitForm{
         margin: 0 auto;
+        margin-top: 20  px!important;
       }
 
       &:hover{
@@ -455,9 +488,11 @@ export const FilterContainer = styled.div`
 
   
   div{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
     align-items: center;
     label{
+      justify-self: end;
       font-size: 1.2rem;
     }
     input{

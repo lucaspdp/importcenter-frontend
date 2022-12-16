@@ -8,6 +8,7 @@ import { FiSearch } from 'react-icons/fi'
 import {Container, 
   Logo,  
   DimLogo, 
+  MagicLogo, 
   AlientechLogo, 
   Header, 
   Nav, 
@@ -26,6 +27,8 @@ import {Container,
 import LogoImg from '../../assets/import-center.png'
 import DimSportImg from '../../assets/Dimsport-logo.png'
 import Alientech from '../../assets/alientech.png'
+import MagicImg from '../../assets/magic.png'
+
 import api from '../../services/api';
 import DataTable from 'react-data-table-component';
 import UsersList from '../../components/UsersList';
@@ -118,8 +121,15 @@ export default function Admin({history}) {
       setError(errorJson.res.response.data.error)
     })
 
-    if(response)
-      alert('Usuário cadastrado com sucesso!');
+    if(response){
+      setEmail('');
+      setError('');
+      
+      setUserName('');
+      setUserCode('');
+      setUserAdmin(false);
+      alert('Cliente cadastrado com sucesso!');
+    }
     //console.log(response);
   }
 
@@ -147,12 +157,14 @@ export default function Admin({history}) {
     if(response){
       if(response.status === 200){
         if(credits > 0)
-          alert(`A quantia de ${credits} foi adicionada ao usuário!`)
+          alert(`A quantia de ${credits} foi adicionada ao cliente!`)
         if(credits < 0)
-          alert(`A quantia de ${credits} foi removida do usuário!`)
+          alert(`A quantia de ${credits} foi removida do cliente!`)
         
           setCredits(0);
-          setTType('')
+          setEmail('');
+          setTType('');
+          setCode('');
       }else{
         alert('Erro, tente novamente!')
       }
@@ -212,7 +224,7 @@ export default function Admin({history}) {
         }
       }
     }).catch(err=>{
-      alert("Usuário não encontrado")
+      alert("Cliente não encontrado")
     })
   }
 
@@ -223,9 +235,12 @@ export default function Admin({history}) {
         history.push('/')
       }} />
       <Header>
-        <DimLogo src={DimSportImg} alt="DimSport logo" isMobile={isMobile}/>
-        <Logo src={LogoImg} alt="Import Center logo" isMobile={isMobile}/>
         <AlientechLogo src={Alientech} alt="Alientech logo" isMobile={isMobile}/>
+        <div style={{display: 'flex', flexDirection:"column", justifyContent: 'center', alignItems: "center"}}>
+          <Logo src={LogoImg} alt="Import Center logo" isMobile={isMobile}/>
+          <DimLogo src={DimSportImg} alt="DimSport logo" isMobile={isMobile}/>
+        </div>
+        <MagicLogo src={MagicImg} alt="Magic logo" isMobile={isMobile}/>
       </Header>
       <Container>
         <Nav toggle={!menu}>
@@ -237,6 +252,7 @@ export default function Admin({history}) {
                 <li key='admin'>
                   <MenuSelect onClick={(e)=>{
                     setCaminho('admin');
+                    setError('');
                   }}
                   caminho={caminho.toString()}
                   val='admin'
@@ -246,6 +262,7 @@ export default function Admin({history}) {
                   <MenuSelect 
                   onClick={()=>{
                     setCaminho('credits'); 
+                    setError('');
                   }}
                   caminho={caminho.toString()}
                   val='credits'
@@ -254,22 +271,25 @@ export default function Admin({history}) {
                 <li key='users'>
                   <MenuSelect onClick={(e)=>{
                     setCaminho('users');
+                    setError('');
                   }}
                   caminho={caminho.toString()}
                   val='users'
-                  >Usuários</MenuSelect>
+                  >Clientes</MenuSelect>
                 </li>
                 <li key='register'>
                   <MenuSelect onClick={(e)=>{
                     setCaminho('register');
+                    setError('');
                   }}
                   caminho={caminho.toString()}
                   val='register'
-                  >Cadastrar Usuário</MenuSelect>
+                  >Cadastrar Cliente</MenuSelect>
                 </li>
                 <li key='creditshistory'>
                   <MenuSelect onClick={(e)=>{
                     setCaminho('creditshistory');
+                    setError('');
                   }}
                   caminho={caminho.toString()}
                   val='creditshistory'
@@ -278,6 +298,7 @@ export default function Admin({history}) {
                 <li key='posts'>
                   <MenuSelect onClick={(e)=>{
                     setCaminho('posts');
+                    setError('');
                   }}
                   caminho={caminho.toString()}
                   val='posts'
@@ -335,7 +356,7 @@ export default function Admin({history}) {
                   onChange={(e)=>setEmail(e.target.value)}
                 />
 
-                <button type="submit" style={{marginTop: 10}} class="submitForm" onClick={handlePost}>Enviar</button>
+                <button type="submit" style={{marginTop: 30}} class="submitForm" onClick={handlePost}>Enviar</button>
               </form>
               <span className="errorSpan">{error}</span>
             </FormContainer>
@@ -348,7 +369,7 @@ export default function Admin({history}) {
 
                 <div className='row'>
                   <div className='row_input input_button'>
-                    <label for="code">Código do usuário: </label>
+                    <label for="code">Código do cliente: </label>
                     <input 
                       type="text" 
                       id="code" 
@@ -358,7 +379,7 @@ export default function Admin({history}) {
                     />
                   </div>
                   <button data-tip data-for="search-user-btn" type='button' onClick={()=> searchClient()} className='icon_button'><FiSearch /></button>
-                  <ReactTooltip id="search-user-btn">Procurar usuário</ReactTooltip>
+                  <ReactTooltip id="search-user-btn">Procurar cliente</ReactTooltip>
                 </div>
 
                 <label for='credits'>Valor de créditos:</label>
@@ -385,10 +406,10 @@ export default function Admin({history}) {
                 />
 
                 <PremadeDiv>
-                  <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Boleto " + dayjs().format("DD/MM/YYYY"))}>Boleto</ButtonPremade>
-                  <ButtonPremade onClick={(e) => setTextTType(e, "Estorno de Créditos " + dayjs().format("DD/MM/YYYY"))}>Estorno</ButtonPremade>
                   <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Depósito Pix " + dayjs().format("DD/MM/YYYY"))}>Pix</ButtonPremade>
                   <ButtonPremade onClick={(e) => setTextTType(e, "Compra de Créditos - Cartão " + dayjs().format("DD/MM/YYYY"))}>Cartão</ButtonPremade>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Estorno de Créditos " + dayjs().format("DD/MM/YYYY"))}>Estorno</ButtonPremade>
+                  <ButtonPremade onClick={(e) => setTextTType(e, "Upgrade " + dayjs().format("DD/MM/YYYY"))}>Upgrade</ButtonPremade>
                 </PremadeDiv>
                 <button type="submit" class="submitForm" onClick={handleCredits}>Enviar</button>
               </form>
@@ -405,7 +426,7 @@ export default function Admin({history}) {
           <>
             <FormContainer>
               <form onSubmit={(e)=>handleRegister(e)}>
-                <label>Nome do usuário:</label>
+                <label>Nome do cliente:</label>
                 <input 
                   type="text" 
                   id="name" 
@@ -413,7 +434,7 @@ export default function Admin({history}) {
                   value={user_name}
                   onChange={(e)=>setUserName(e.target.value)}
                 />
-                <label>Email do usuário: </label>
+                <label>Email do cliente: </label>
                 <input 
                   type="email" 
                   id="email" 
@@ -421,7 +442,7 @@ export default function Admin({history}) {
                   value={email}
                   onChange={(e)=>setEmail(e.target.value)}
                 />
-                <label>Código do usuário: </label>
+                <label>Código do cliente: </label>
                 <input 
                   type="text" 
                   id="code" 
@@ -438,7 +459,7 @@ export default function Admin({history}) {
                       onChange={handleRadioChange}
                       checked={user_admin === false}
                       />
-                      Usuário
+                      Cliente
                     </RadioLabel>
                   </div>
                   <div className="radio">
@@ -451,7 +472,7 @@ export default function Admin({history}) {
                     </RadioLabel>
                   </div>
                 </div>
-                <button type="submit" style={{marginTop: 10}} class="submitForm" onClick={handleRegister}>Cadastrar</button>
+                <button type="submit" style={{marginTop: 30}} class="submitForm" onClick={handleRegister}>Cadastrar</button>
               </form>
               <span className="errorSpan">{error}</span>
             </FormContainer>

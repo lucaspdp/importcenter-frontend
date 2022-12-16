@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { FaBars, FaWindowClose } from 'react-icons/fa';
 
+
 export const Logo = styled.img`
 
   width: 100%;
   max-width: 400px;
+  margin-bottom: 10px;
 
   justify-self: center;
 
@@ -28,15 +30,39 @@ export const AlientechLogo = styled.img`
 
   width: 100%;
   max-width: 200px;
-  justify-self: left;
+  justify-self: right;
 
   position: initial;
-  margin-left: 5px;
+  margin-right: 5px;
   
   --stroke-pos: .1px;
     --stroke-neg: -.1px;
     --stroke-color: rgba(0, 0, 0, 0.23);
     filter: drop-shadow(var(--stroke-pos) 0 0 var(--stroke-color)) 
+      drop-shadow(var(--stroke-neg) 0 var(--stroke-color))
+      drop-shadow(0 var(--stroke-pos) 0 var(--stroke-color))
+      drop-shadow(0 var(--stroke-neg) 0 var(--stroke-color))
+      drop-shadow(var(--stroke-pos) var(--stroke-pos) 0 var(--stroke-color)) 
+      drop-shadow(var(--stroke-pos) var(--stroke-neg) 0 var(--stroke-color))
+      drop-shadow(var(--stroke-neg) var(--stroke-pos) 0 var(--stroke-color))
+      drop-shadow(var(--stroke-neg) var(--stroke-neg) 0 var(--stroke-color));   
+
+`;
+
+export const MagicLogo = styled.img`
+
+
+  width: 100%;
+  max-width: 200px;
+  justify-self: left;
+
+  position: initial;
+  margin-left: 5px;
+  
+  --stroke-pos: 0px;
+    --stroke-neg: 0px;
+    --stroke-color: #ffffff20;
+    filter: drop-shadow(var(--stroke-pos) 0px 5px var(--stroke-color)) 
       drop-shadow(var(--stroke-neg) 0 var(--stroke-color))
       drop-shadow(0 var(--stroke-pos) 0 var(--stroke-color))
       drop-shadow(0 var(--stroke-neg) 0 var(--stroke-color))
@@ -64,6 +90,7 @@ export const Container = styled.div`
 
   
 `;
+
 export const Header = styled.div`
   width: 100%;
   max-width: 100%;
@@ -76,7 +103,7 @@ export const Header = styled.div`
     grid-template-columns: 1fr 2fr 1fr;
   }
   @media only screen and (max-width: 600px){
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr;
   }
   
   justify-content: center;
@@ -206,8 +233,10 @@ export const PostsContainer = styled.div`
 
     .title{
       color: #7d7d7d;
-      font-size: 5rem;
-      font-family: 'Kanit', sans-serif;
+      font-size: 3.5rem;
+      font-family: Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
     .saldo{
       font-size: 1rem;

@@ -88,7 +88,7 @@ const UsersList = () => {
     async function handleDeleteUser(id, email) {
         if (id) {
             // eslint-disable-next-line no-restricted-globals
-            let res = confirm(`Você deseja deletar o usuário ${email} ?`);
+            let res = confirm(`Você deseja deletar o cliente ${email} ?`);
             if (res) {
                 const response = await api.delete(`/user/${id}`, {
                     headers: {
@@ -99,14 +99,14 @@ const UsersList = () => {
                 });
 
                 if (response) {
-                    alert("Usuário deletado deletado!");
+                    alert("Cliente deletado deletado!");
                     const res = await api.get('/users', {
                         headers: {
                             id: sessionStorage.getItem('user_id')
                         }
                     });
 
-                    setUsers(res.data);
+                    setUsers(res.data.users);
                 }
             }
         }
@@ -114,7 +114,7 @@ const UsersList = () => {
 
     return (
         <FormContainer>
-            <h2>Usuários Cadastrados:</h2>
+            <h2>Clientes Cadastrados:</h2>
             <ExportCSV fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="users" />
             <ExportCSV fileName={`Backup-${(new Date().toLocaleDateString()).toString().replace('/', '-').replace(':', '_')}`} type="all" />
 

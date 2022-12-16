@@ -8,11 +8,13 @@ import {Container,
         Header, 
         FormContainer,
         RadioLabel,
-        ExitButton
+        ExitButton,
+        MagicLogo
        } from '../Admin/styles';
 
 import LogoImg from '../../assets/import-center.png'
 import DimSportImg from '../../assets/Dimsport-logo.png'
+import MagicImg from '../../assets/magic.png'
 import Alientech from '../../assets/alientech.png'
 import api from '../../services/api';
 
@@ -76,7 +78,7 @@ export default function EditUser({history, match}) {
     })
 
     if(response)
-      alert('Dados do usuário alterados com sucesso!');
+      alert('Dados do cliente alterados com sucesso!');
       history.push('/admin')
   }
 
@@ -85,15 +87,18 @@ export default function EditUser({history, match}) {
       <ExitButton onClick={()=>{
         history.push('/admin')
       }} />
-        <Header>
-          <DimLogo src={DimSportImg} alt="DimSport logo" isMobile={isMobile}/>
+      <Header>
+        <AlientechLogo src={Alientech} alt="Alientech logo" isMobile={isMobile}/>
+        <div style={{display: 'flex', flexDirection:"column", justifyContent: 'center', alignItems: "center"}}>
           <Logo src={LogoImg} alt="Import Center logo" isMobile={isMobile}/>
-          <AlientechLogo src={Alientech} alt="Alientech logo" isMobile={isMobile}/>
-        </Header>
+          <DimLogo src={DimSportImg} alt="DimSport logo" isMobile={isMobile}/>
+        </div>
+        <MagicLogo src={MagicImg} alt="Magic logo" isMobile={isMobile}/>
+      </Header>
       <Container>
         <FormContainer>
               <form onSubmit={(e)=>handleUpdate(e)}>
-                <label>Nome do Usuário:</label>
+                <label>Nome do cliente:</label>
                 <input 
                   type="text" 
                   id="name" 
@@ -101,7 +106,7 @@ export default function EditUser({history, match}) {
                   value={user_name}
                   onChange={(e)=>setUserName(e.target.value)}
                 />
-                <label>Email do usuário: </label>
+                <label>Email do cliente: </label>
                 <input 
                   type="email" 
                   id="email" 
@@ -109,7 +114,7 @@ export default function EditUser({history, match}) {
                   value={email}
                   onChange={(e)=>setEmail(e.target.value)}
                 />
-                <label>Código do usuário: </label>
+                <label>Código do cliente: </label>
                 <input 
                   type="text" 
                   id="code" 
@@ -126,7 +131,7 @@ export default function EditUser({history, match}) {
                       onChange={handleUpdate}
                       checked={user_admin === false}
                       />
-                      Usuário
+                      Cliente
                     </RadioLabel>
                   </div>
                   <div className="radio">
@@ -139,9 +144,9 @@ export default function EditUser({history, match}) {
                     </RadioLabel>
                   </div>
                 </div>
-                <button type="submit" onClick={handleUpdate}>Cadastrar</button>
+                <button style={{marginTop: 30}} type="submit" class="submitForm" onClick={handleUpdate}>Cadastrar</button>
               </form>
-              <span className="errorSpan">{error}</span>
+              <span style={{marginTop: 10}} className="errorSpan">{error}</span>
             </FormContainer>
       </Container>
     </>
